@@ -222,7 +222,7 @@ class Project
 
 	public static function app_data($id)
 	{
-		// SQL Inj
+		if(!is_int($id)) return;
 		$q = mysql_query("SELECT * FROM `apps` WHERE `id`='{$id}'");
 		$arr = array();
 

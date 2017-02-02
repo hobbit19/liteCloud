@@ -222,7 +222,8 @@ class Project
 
 	public static function app_data($id)
 	{
-		if(!is_int((int)$id)) return;
+		settype($id, "integer");
+		if(!is_int($id)) return;
 		$q = mysql_query("SELECT * FROM `apps` WHERE `id`='{$id}'");
 		$arr = array();
 

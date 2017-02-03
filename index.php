@@ -27,7 +27,6 @@ if(!Project::info('install') && $_GET['path'] != 'install')
 # Системные переменные
 $_USER 		= Project::user($_COOKIE['id']);
 $_SETTINGS	= Project::get_config();
-
 # Вывод контента
 if(isset($_GET['content']) && !empty($_COOKIE['id']))
 	exit(json_encode(include($path[$_POST['path']])));

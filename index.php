@@ -52,7 +52,7 @@ if(isset($_COOKIE['id']) && !empty($_COOKIE['id']))
 		setcookie('miniapp', '');
 
 		# Генерация гл. страницы	
-		$arr = mysql_fetch_array(mysql_query("SELECT `id` FROM `apps` WHERE `alias`='user_editor'"));
+		$arr = mysqli_fetch_assoc(mysqli_query($_DATABASE, "SELECT `id` FROM `apps` WHERE `alias`='user_editor'"));
 
 		if($_USER['mobile'])
 		{
@@ -74,7 +74,7 @@ if(isset($_COOKIE['id']) && !empty($_COOKIE['id']))
 		$username = Project::escape($_POST['username']);
 		$password = Project::password($_POST['password']);
 
-		$data = mysql_fetch_array(mysql_query("SELECT * FROM `users` WHERE `login`='{$username}' AND `password`='{$password}'"));
+		$data = mysqli_fetch_assoc(mysqli_query($_DATABASE, "SELECT * FROM `users` WHERE `login`='{$username}' AND `password`='{$password}'"));
 		if(!empty($data['id']) && !empty($data['root']))
 		{
 			setcookie('id', $data['id']);
@@ -86,4 +86,4 @@ if(isset($_COOKIE['id']) && !empty($_COOKIE['id']))
 	$tmp->display('login.tmp');
 }
 
-mysql_close();
+mysqli_close($_DATABASE);

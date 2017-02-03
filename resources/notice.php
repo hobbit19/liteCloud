@@ -8,8 +8,8 @@ if(isset($_COOKIE['miniapp']) && !empty($_COOKIE['miniapp']))
 	$html .= $tmp->display('miniapp.tmp', true);
 }
 
-$q = mysql_query("SELECT * FROM `notices`");
-if(mysql_num_rows($q) > 0)
+$q = mysqli_query($_DATABASE, "SELECT * FROM `notices`");
+if(mysqli_num_rows($q) > 0)
 {
 
 }else

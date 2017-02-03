@@ -3,15 +3,15 @@
 include("./project.class.php");
 
 # Запросы к базе данных
-$q = mysql_query("SELECT * FROM `apps`");
-$count = mysql_num_rows($q);
+$q = mysqli_query($_DATABASE, "SELECT * FROM `apps`");
+$count = mysqli_num_rows($q);
 
 # Стартовые переменные для создания рамок исполнения js кода
 $js = "var lcl_add = location.href.split('?');\nvar app_id = getvalue(location.href);\nvar cookie = $.cookie('miniapp');\nvar cookie_mini = jQuery.parseJSON(cookie);\n";
 
 # Выводим список установленных приложений
 if($count > 0)
-	while($rows = mysql_fetch_array($q))
+	while($rows = mysqli_fetch_assoc($q))
 	{
 		// Покдлючаем библиотеку приложения и получаем js
 		$APP = Project::app_data($rows['id']);

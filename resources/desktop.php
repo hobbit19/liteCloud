@@ -36,11 +36,11 @@ if(isset($_POST['app']) && !empty($_POST['app']))
 }else
 {
 	# Извлечение данных
-	$q = mysql_query("SELECT * FROM `apps` WHERE `type`='0'");
+	$q = mysqli_query($_DATABASE, "SELECT * FROM `apps` WHERE `type`='0'");
 	$html = ''; $_app = false; $error = false; $css = '';
 
 	# Генерация списка приложений
-	while($rows = mysql_fetch_array($q))
+	while($rows = mysqli_fetch_assoc($q))
 	{
 		$data = Project::xml_app($rows['id']);
 		$html .= "

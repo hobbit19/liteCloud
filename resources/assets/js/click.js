@@ -39,19 +39,14 @@
 				var json = jQuery.parseJSON(data);
 				$("title").html(json.title);
 				$('#t').attr("id", "o");
-
 				if(json.menu['home'])
 					$('.home_m').attr("id", "t");
-
 				if(json.menu['notice'])
 					$('.notice_m').attr("id", "t");
-
 				if(json.menu['search'])
 					$('.search_m').attr("id", "t");
-
 				if(json.redirect)
 					window.location.href = "/?path=home";
-
 				if(json.error)
 					$("#error_window").html(json.content).show(150);
 				else

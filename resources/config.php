@@ -3,9 +3,9 @@
 
 // DATABASE INFO
 define('DB_SERVER',		'localhost');
-define('DB_DATABASE',	'');
-define('DB_USER',		'');
-define('DB_PASS',		'');
+define('DB_DATABASE',	'xcloud_regedit');
+define('DB_USER',		'xcld_rgdt');
+define('DB_PASS',		'karz223945');
 
 // GLOBAL VARS
 define('LOCAL', 		$_SERVER['HTTP_HOST']);

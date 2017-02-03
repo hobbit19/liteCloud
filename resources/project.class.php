@@ -1,23 +1,23 @@
 <?php
 # Конфигурация
 include($_SERVER['DOCUMENT_ROOT'].'/resources/config.php');
-
-# Подключение к БД
-$db = mysql_connect(DB_SERVER, DB_USER, DB_PASS);
-mysql_select_db(DB_DATABASE, $db) or die(mysql_errno($db).": ".mysql_error($db));
-
+# Указатель на подключение к бд
+$_DATABASE 	= Project::mysqli_connect();
 
 class Project
 {
+	public static function mysqli_connect()
+	{
+		return mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE);
+	}
+
 	public static function info($tag='')
 	{
 		//$srv_cfg = json_decode(file_get_contents("http://projects.quareal.ru/xcloud/config.php"));
-		$data_db = mysql_fetch_array(mysql_query("SELECT `login` FROM `users` WHERE `root`='1'"));
-		//$sys_arr = mysql_fetch_array(mysql_query("SELECT * FROM array WHERE name='VERSION'"));
-
+		$data_db = mysqli_fetch_assoc(mysqli_query(self::mysqli_connect(), "SELECT `login` FROM `users` WHERE `root`='1'"));
+		//$sys_arr = mysqli_fetch_assoc(mysqli_query(self::mysqli_connect(), "SELECT * FROM array WHERE name='VERSION'"));
 		$arr['install']	= (count($data_db) > 0) ? true : false;
 		//$arr['update']	= ($xml->version == $sys_arr['value']) ? false : true;
-
 		return (empty($tag)) ? $arr : $arr[$tag];
 	}
 
@@ -25,26 +25,20 @@ class Project
 	{
 		$array 		= self::scan_dir('/media/root/');
 		$devices 	= array();
-
 		for($i=1;$i<count($array);$i++)
-		{
-			$procent =  substr((disk_free_space('/media/root/'.$array['dirs'][$i-1]['name']) / disk_total_space('/media/root/'.$array['dirs'][$i-1]['name'])) * 100, 0, 5);
 			$devices[$i] = array(
 				'name' 			=> $array['dirs'][$i-1]['name'],
 				'path'			=> '/media/root/'.$array['dirs'][$i-1]['name'].'/',
 				'free_space'	=> self::filesize_get(disk_free_space('/media/root/'.$array['dirs'][$i-1]['name']), false),
 				'total_space'	=> self::filesize_get(disk_total_space('/media/root/'.$array['dirs'][$i-1]['name']), false),
-				'procent'		=> $procent
+				'procent'		=> substr((disk_free_space('/media/root/'.$array['dirs'][$i-1]['name']) / disk_total_space('/media/root/'.$array['dirs'][$i-1]['name'])) * 100, 0, 5)
 			);
-		}
-
-		$procent = substr(disk_total_space('/') / 100 * disk_free_space('/'), 0, 5);
 		$devices[0] = array(
 			'name' 			=> 'System Disk',
 			'path'			=> '/',
 			'free_space' 	=> self::filesize_get(disk_free_space('/'), false),
 			'total_space'	=> self::filesize_get(disk_total_space('/'), false),
-			'procent'		=> $procent
+			'procent'		=> substr(disk_total_space('/') / 100 * disk_free_space('/'), 0, 5)
 		);
 
 		return $devices;
@@ -57,9 +51,7 @@ class Project
 		$files 	= array(); $f = 0;
 		
 		for($i=0;$i<count($data);$i++)
-		{
 			if($data[$i] != "." && $data[$i] != ".." && $data[$i][0] != ".")
-			{
 				if(is_dir($path.$data[$i]))
 				{
 					$count 		= scandir($path.$data[$i]);
@@ -90,9 +82,6 @@ class Project
 
 					$f++;
 				}
-			}
-		}
-		
 		return array('dirs' => $dirs, 'files' => $files);
 	}
 
@@ -104,11 +93,9 @@ class Project
 		{
 			$count 		= scandir($way);
 			$empt_ct 	= 0;
-
 			for($l=0;$l<count($count);$l++)
 				if($count[$l] != "." && $count[$l] != "..")
 					$empt_ct++;
-
 			return array(
 				'type' => 1, 
 				'size' => '--', 
@@ -117,30 +104,25 @@ class Project
 				'empty' => $empt_ct
 			);
 		}elseif(is_file($way))
-		{
 			return array(
 				'type' => 2,
 				'size' => self::filesize_get($way),
 				'rules' => substr(sprintf('%o', fileperms($way)), -4),
 				'time' => date("d F Y", filemtime($way))
 			);
-		}else
-		{
+		else
 			return array('type' => 3);
-		}
 	}
 
 	private static function filesize_get($file, $file_path=true)
 	{
 		if($file_path)
-		{
-			if(!file_exists($file)) "0 Байт";
-	  		$filesize = filesize($file);
-		}else
-		{
+			if(!file_exists($file)) 
+				return "0 Байт";
+			else
+	  			$filesize = filesize($file);
+		else
 			$filesize = $file;
-		}
-
 	   	if($filesize > 1024)
 	   	{
 			$filesize = ($filesize/1024);
@@ -148,26 +130,13 @@ class Project
 		   	{
 				$filesize = ($filesize/1024);
 			   	if($filesize > 1024)
-			   	{
-					$filesize = ($filesize/1024);
-					$filesize = round($filesize, 1);
-					return $filesize." ГБ";   
-
-			   	}else
-			   	{
-					$filesize = round($filesize, 1);
-				   	return $filesize." MБ";   
-			   	}  
+					return round(($filesize/1024), 1)." ГБ";   
+				else
+				   	return round($filesize, 1)." MБ";   
 			}else
-		   	{
-				$filesize = round($filesize, 1);
-				return $filesize." КБ";   
-		   	}
+				return round($filesize, 1)." КБ";   
 		}else
-	   	{
-			$filesize = round($filesize, 1);
-		   	return $filesize." Байт";   
-	   	}
+		   	return round($filesize, 1)." Байт";   
 	}
 
 	private static function is_mobile()
@@ -179,23 +148,17 @@ class Project
 			'HTC_', 'Fennec/', 'WindowsPhone', 
 			'WP7', 'WP8', 'WP10'
 		);
-
 		foreach($mobiles as $mobile)
-		{
 			if(preg_match("#".$mobile."#i", $_SERVER['HTTP_USER_AGENT']))
-			{
 				return true;
-			}
-		}
-
 		return false;
 	}
 
 	public static function user($id='')
 	{
-		if(!empty($id))
+		if(!empty($id) && self::isint($id))
 		{
-			$data = mysql_fetch_array(mysql_query("SELECT * FROM `users` WHERE `id`='{$id}'"));
+			$data = mysqli_fetch_assoc(mysqli_query(self::mysqli_connect(), "SELECT * FROM `users` WHERE `id`='{$id}'"));
 			return array(
 				'rules' 	=> json_decode($data['rules']), 
 				'root' 		=> $data['root'], 
@@ -204,14 +167,13 @@ class Project
 				'mobile'	=> self::is_mobile()
 			);
 		}else
-		{
 			return false;
-		}
 	}
 
 	public static function xml_app($id)
 	{
-		$q = mysql_fetch_array(mysql_query("SELECT * FROM `apps` WHERE `id`='{$id}'"));
+		if(!self::isint($id)) return;
+		$q = mysqli_fetch_assoc(mysqli_query(self::mysqli_connect(), "SELECT * FROM `apps` WHERE `id`='{$id}'"));
 		$file = './'.$q['dir'].'/config.xml';
 		if(file_exists($file))
 		{
@@ -222,15 +184,12 @@ class Project
 
 	public static function app_data($id)
 	{
-		settype($id, "integer");
-		if(!is_int($id)) return;
-		$q = mysql_query("SELECT * FROM `apps` WHERE `id`='{$id}'");
+		if(!self::isint($id)) return;
+		$q = mysqli_query(self::mysqli_connect(), "SELECT * FROM `apps` WHERE `id`='{$id}'");
 		$arr = array();
-
-		if(mysql_num_rows($q) == 1)
+		if(mysqli_num_rows($q) == 1)
 		{
-			$data = mysql_fetch_array($q);
-
+			$data = mysqli_fetch_assoc($q);
 			$arr['dir'] 		= '/'.$data['dir'];
 			$arr['tmp'] 		= new Temp($arr['dir'].'/');
 			$arr['sys']			= ($data['system'] == 1) ? true : false;
@@ -240,18 +199,11 @@ class Project
 			$arr['url_app']		= '/?path=home&app='.$id;
 			$arr['association']	= array();
 			$arr['type']		= $data['type'];
-
-			$astn = mysql_query("SELECT * FROM `association`"); 
-			while($rows = mysql_fetch_array($astn))
-			{
+			$astn = mysqli_query(self::mysqli_connect(), "SELECT * FROM `association`"); 
+			while($rows = mysqli_fetch_assoc($astn))
 				$arr['association'][$rows['type']] = $rows['app_id'];
-			}
-
 		}else
-		{
 			$arr['isset_sql'] = false;
-		}
-
 		return $arr;
 	}
 
@@ -262,7 +214,7 @@ class Project
 
 	public static function get_config()
 	{
-		$data = mysql_fetch_array(mysql_query("SELECT * FROM `settings`"));
+		$data = mysqli_fetch_assoc(mysqli_query(self::mysqli_connect(), "SELECT * FROM `settings`"));
 		return (array)json_decode($data['json_config']);
 	}
 
@@ -280,11 +232,10 @@ class Project
 		$string = str_replace( "\'"					, "&#39;"         , $string );
         $string = preg_replace( "/\n/"				, "<br />"        , $string ); 
         $string = preg_replace( "/\\\$/"			, "&#036;"        , $string );
-        $string = preg_replace( "/\r/"				, ""              , $string ); 
+        $string = preg_replace( "/\r/"				, ""              , $string );
         $string = str_replace( "!"					, "&#33;"         , $string );
         $string = str_replace( "'"					, "&#39;"         , $string ); 
-        $string = preg_replace("/&amp;#([0-9]+);/s"	, "&#\\1;"		  , $string );	
-
+        $string = preg_replace("/&amp;#([0-9]+);/s"	, "&#\\1;"		  , $string );
 		if(get_magic_quotes_runtime()) $string = stripslashes($string);
 		return $string;
 	}
@@ -292,15 +243,20 @@ class Project
 	public static function is_image($path) 
 	{
 		$is = @getimagesize($path);
-		if ( !$is ) return false;
-		elseif (!in_array($is[2], array(1,2,3))) return false;
+		if(!$is) return false;
+		elseif(!in_array($is[2], array(1,2,3))) return false;
 		else return true;
 	}
 
 	public static function url()
 	{
-		$type = ($_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
-		return $type.$_SERVER['HTTP_HOST'];
+		return (($_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://').$_SERVER['HTTP_HOST'];
+	}
+
+	private static function isint($int)
+	{
+		settype($int, "integer");
+		return is_int($int);
 	}
 /*
 	private function key_generator()

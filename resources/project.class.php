@@ -313,14 +313,10 @@ class Temp
 
 		ob_start();
 		include($this->_template);
-
 		if($return)
-		{
 			return ob_get_clean();
-		}else
-		{
+		else
 			echo ob_get_clean();
-		}
 	}
 	private function _strip($data)
 	{
@@ -335,9 +331,7 @@ class Temp
 		{
 			$escaped = array();
 			foreach ($data as $key => $value) 
-			{
 				$escaped[$key] = $this->xss($value);
-			}
 			return $escaped;
 		}
 		return htmlspecialchars($data, ENT_QUOTES);

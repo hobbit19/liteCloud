@@ -10,8 +10,8 @@ $path = array(
 	'install'	=>	'./resources/install.php',
 	'password'	=>	'./resources/password.php',
 	'get'		=> 	'./resources/getfile.php',
-	'info'		=>	'./info.php',
-	'status'	=> 	'./status.php'
+	'status'	=> 	'./resources/status.php',
+	'info'		=>	'./info.php'
 );
 
 # Включение шаблонизатора
@@ -27,6 +27,7 @@ if(!Project::info('install') && $_GET['path'] != 'install')
 # Системные переменные
 $_USER 		= Project::user($_COOKIE['id']);
 $_SETTINGS	= Project::get_config();
+
 # Вывод контента
 if(isset($_GET['content']) && !empty($_COOKIE['id']))
 	exit(json_encode(include($path[$_POST['path']])));
@@ -41,7 +42,7 @@ if(empty($path[$_GET['path']]))
 # Вывод шаблона авторизовани или нет
 if(isset($_COOKIE['id']) && !empty($_COOKIE['id']))
 {
-	if(isset($_GET['path']) && $_GET['path'] == 'get')
+	if(isset($_GET['path']) && ($_GET['path'] == 'get' || $_GET['path'] == 'status'))
 	{
 		include($path[$_GET['path']]);
 		exit;

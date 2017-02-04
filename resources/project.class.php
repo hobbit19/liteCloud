@@ -3,173 +3,144 @@
 include($_SERVER['DOCUMENT_ROOT'].'/resources/config.php');
 # Указатель на подключение к бд
 $_DATABASE 	= Project::mysqli_connect();
-
+/*
+	Класс: Project
+	В нем находятся базовые функции системы, функции для вызова API.
+*/
 class Project
 {
+	/*
+		Назначение функции: Подключение к базе данных
+		Входящие параметры: Нет
+	*/
 	public static function mysqli_connect()
 	{
 		return mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE);
 	}
-
+	/*
+		Назначение функции: Вывод общей информации системы
+		Входящие параметры: Наименование конкретной категории
+	*/
 	public static function info($tag='')
 	{
-		//$srv_cfg = json_decode(file_get_contents("http://projects.quareal.ru/xcloud/config.php"));
 		$data_db = mysqli_fetch_assoc(mysqli_query(self::mysqli_connect(), "SELECT `login` FROM `users` WHERE `root`='1'"));
-		//$sys_arr = mysqli_fetch_assoc(mysqli_query(self::mysqli_connect(), "SELECT * FROM array WHERE name='VERSION'"));
 		$arr['install']	= (count($data_db) > 0) ? true : false;
-		//$arr['update']	= ($xml->version == $sys_arr['value']) ? false : true;
 		return (empty($tag)) ? $arr : $arr[$tag];
 	}
-
-	public static function scan_devices()
+	/*
+		Назначение функции: Расчет свободного места на сервере
+		Входящие параметры: Путь к рабочему каталогу, тип вывода
+	*/
+	public static function freespace($dir, $size=true)
 	{
-		$array 		= self::scan_dir('/media/root/');
-		$devices 	= array();
-		for($i=1;$i<count($array);$i++)
-			$devices[$i] = array(
-				'name' 			=> $array['dirs'][$i-1]['name'],
-				'path'			=> '/media/root/'.$array['dirs'][$i-1]['name'].'/',
-				'free_space'	=> self::filesize_get(disk_free_space('/media/root/'.$array['dirs'][$i-1]['name']), false),
-				'total_space'	=> self::filesize_get(disk_total_space('/media/root/'.$array['dirs'][$i-1]['name']), false),
-				'procent'		=> substr((disk_free_space('/media/root/'.$array['dirs'][$i-1]['name']) / disk_total_space('/media/root/'.$array['dirs'][$i-1]['name'])) * 100, 0, 5)
-			);
-		$devices[0] = array(
-			'name' 			=> 'System Disk',
-			'path'			=> '/',
-			'free_space' 	=> self::filesize_get(disk_free_space('/'), false),
-			'total_space'	=> self::filesize_get(disk_total_space('/'), false),
-			'procent'		=> substr(disk_total_space('/') / 100 * disk_free_space('/'), 0, 5)
-		);
-
-		return $devices;
+		if($size)
+			return self::filesize_get(disk_total_space($dir) - disk_free_space($dir), false);
+		else
+			return substr((disk_free_space($dir) * 100) / disk_total_space($dir), 0, 5);
 	}
-
+	/*
+		Назначение функции: Запись в массив содержимое каталога
+		Входящие параметры: Путь сканируемого каталога
+	*/
 	public static function scan_dir($path)
 	{
 		$data 	= scandir($path);
 		$dirs 	= array(); $d = 0;
-		$files 	= array(); $f = 0;
-		
+		$files 	= array(); $f = 0;	
 		for($i=0;$i<count($data);$i++)
-			if($data[$i] != "." && $data[$i] != ".." && $data[$i][0] != ".")
-				if(is_dir($path.$data[$i]))
-				{
-					$count 		= scandir($path.$data[$i]);
-					$empt_ct 	= 0;
-
-					for($l=0;$l<count($count);$l++)
-						if($count[$l] != "." && $count[$l] != "..")
-							$empt_ct++;
-
-					$dirs[$d] = array(
-						'name' => $data[$i],
-						'size' => '--',
-						'time' => date("d F Y", filemtime($path.$data[$i])),
-						'rules' => substr(sprintf('%o', fileperms($path.$data[$i])), -4),
-						'empty' => $empt_ct
-					);
-
-					$d++;
-				}else
-				{
-					$type = explode('.', $data[$i]);
-					$files[$f] = array(
-						'name' => $data[$i], 
-						'type' => $type[count($type)-1],
-						'size' => self::filesize_get($path.$data[$i]), 
-						'time' => date("d F Y", filemtime($path.$data[$i]))
-					);
-
-					$f++;
-				}
+			if(is_dir($path.$data[$i]) && $data[$i] != "." && $data[$i] != ".." && $data[$i][0] != ".")
+			{
+				$count = scandir($path.$data[$i]); $empt_ct = 0; $d++;
+				for($l=0;$l<count($count);$l++)
+					if($count[$l] != "." && $count[$l] != "..") $empt_ct++;
+				$dirs[$d - 1] = array(
+				'name' => $data[$i],'size' => '--','time' => date("d F Y", filemtime($path.$data[$i])),
+				'rules' => substr(sprintf('%o', fileperms($path.$data[$i])), -4),'empty' => $empt_ct);
+			}elseif(!is_dir($path.$data[$i]) && $data[$i] != "." && $data[$i] != ".." && $data[$i][0] != ".")
+			{
+				$type = explode('.', $data[$i]); $f++;
+				$files[$f - 1] = array(
+				'name' => $data[$i], 'type' => $type[count($type)-1], 'size' => self::filesize_get($path.$data[$i]), 
+				'time' => date("d F Y", filemtime($path.$data[$i])));
+			}
 		return array('dirs' => $dirs, 'files' => $files);
 	}
-
+	/*
+		Назначение функции: Информация о файле/каталоге
+		Входящие параметры: Путь к файле/каталоге
+	*/
 	public static function about_doc($way = '')
 	{
-		if(empty($way))
-			return array('type' => 0);
+		if(empty($way)) return array('type' => 0);
 		if(is_dir($way))
 		{
-			$count 		= scandir($way);
-			$empt_ct 	= 0;
+			$count = scandir($way); $empt_ct = 0;
 			for($l=0;$l<count($count);$l++)
-				if($count[$l] != "." && $count[$l] != "..")
-					$empt_ct++;
+				if($count[$l] != "." && $count[$l] != "..") $empt_ct++;
 			return array(
-				'type' => 1, 
-				'size' => '--', 
-				'time' => date("d F Y", filemtime($way)),
-				'rules' => substr(sprintf('%o', fileperms($way)), -4),
-				'empty' => $empt_ct
-			);
+			'type' => 1, 'size' => '--', 'time' => date("d F Y", filemtime($way)),
+			'rules' => substr(sprintf('%o', fileperms($way)), -4),'empty' => $empt_ct);
 		}elseif(is_file($way))
 			return array(
-				'type' => 2,
-				'size' => self::filesize_get($way),
-				'rules' => substr(sprintf('%o', fileperms($way)), -4),
-				'time' => date("d F Y", filemtime($way))
-			);
-		else
-			return array('type' => 3);
+			'type' => 2,'size' => self::filesize_get($way),
+			'rules' => substr(sprintf('%o', fileperms($way)), -4),
+			'time' => date("d F Y", filemtime($way)));
+		else return array('type' => 3);
 	}
-
+	/*
+		Назначение функции: Расчет веса файла в макс. единице
+		Входящие параметры: Путь к файлу/непереведенный вес, тип параметра
+	*/
 	private static function filesize_get($file, $file_path=true)
 	{
-		if($file_path)
-			if(!file_exists($file)) 
-				return "0 Байт";
-			else
-	  			$filesize = filesize($file);
-		else
-			$filesize = $file;
-	   	if($filesize > 1024)
-	   	{
+		if($file_path && !file_exists($file)) return "0 Байт";
+		elseif($file_path && file_exists($file))
+			$filesize = filesize($file);
+		else $filesize = $file;
+		if($filesize > 1024)
+		{
 			$filesize = ($filesize/1024);
-		   	if($filesize > 1024)
-		   	{
-				$filesize = ($filesize/1024);
-			   	if($filesize > 1024)
-					return round(($filesize/1024), 1)." ГБ";   
-				else
-				   	return round($filesize, 1)." MБ";   
-			}else
-				return round($filesize, 1)." КБ";   
-		}else
-		   	return round($filesize, 1)." Байт";   
+			if($filesize > 1024)
+				if(($filesize/1024) > 1024) 
+					return round((($filesize/1024)/1024), 1)." ГБ";   
+				else return round(($filesize/1024), 1)." MБ";   
+			else return round($filesize, 1)." КБ";   
+		}else return round($filesize, 1)." Байт";   
 	}
-
+	/*
+		Назначение функции: Тип подключенного устройства
+		Входящие параметры: Нет
+	*/
 	private static function is_mobile()
 	{
 		$mobiles = array(
-			'iPhone', 'iPod', 'iPad', 
-			'Android', 'webOS', 'BlackBerry', 
-			'Mobile', 'Symbian', 'Opera M', 
-			'HTC_', 'Fennec/', 'WindowsPhone', 
-			'WP7', 'WP8', 'WP10'
+			'iPhone', 'iPod', 'iPad', 'Android', 'webOS', 'BlackBerry', 'Mobile', 
+			'Symbian', 'Opera M', 'HTC_', 'Fennec/', 'WindowsPhone', 'WP7', 'WP8', 'WP10'
 		);
 		foreach($mobiles as $mobile)
 			if(preg_match("#".$mobile."#i", $_SERVER['HTTP_USER_AGENT']))
 				return true;
 		return false;
 	}
-
-	public static function user($id='')
+	/*
+		Назначение функции: Информация об учетной записи
+		Входящие параметры: id пользователя
+	*/
+	public static function user($id=0)
 	{
-		if(!empty($id) && self::isint($id))
+		if(!empty($id) && self::isint($id) && $id > 0)
 		{
 			$data = mysqli_fetch_assoc(mysqli_query(self::mysqli_connect(), "SELECT * FROM `users` WHERE `id`='{$id}'"));
 			return array(
-				'rules' 	=> json_decode($data['rules']), 
-				'root' 		=> $data['root'], 
-				'login' 	=> $data['login'],
-				'avatar'	=> $data['avatar'],
-				'mobile'	=> self::is_mobile()
+				'rules' => json_decode($data['rules']), 'root' => $data['root'], 'login' => $data['login'], 
+				'avatar' => $data['avatar'], 'mobile' => self::is_mobile()
 			);
-		}else
-			return false;
+		}else return false;
 	}
-
+	/*
+		Назначение функции: Вывод конфигурации приложения
+		Входящие параметры: id приложения
+	*/
 	public static function xml_app($id)
 	{
 		if(!self::isint($id)) return;
@@ -181,153 +152,171 @@ class Project
 			return $xml->INTERNALS[0];
 		}
 	}
-
+	/*
+		Назначение функции: API для подключаемых приложений и массива ассоциаций
+		Входящие параметры: id приложения
+	*/
 	public static function app_data($id)
 	{
-		if(!self::isint($id)) return;
+		if(!self::isint($id)) return; $arr = array();
 		$q = mysqli_query(self::mysqli_connect(), "SELECT * FROM `apps` WHERE `id`='{$id}'");
-		$arr = array();
-		if(mysqli_num_rows($q) == 1)
-		{
-			$data = mysqli_fetch_assoc($q);
-			$arr['dir'] 		= '/'.$data['dir'];
-			$arr['tmp'] 		= new Temp($arr['dir'].'/');
-			$arr['sys']			= ($data['system'] == 1) ? true : false;
-			$arr['isset_dir'] 	= is_dir(ROOT_PATH.$arr['dir']);
-			$arr['isset_code'] 	= file_exists(ROOT_PATH.$arr['dir'].'/code.php');
-			$arr['isset_sql']	= true;
-			$arr['url_app']		= '/?path=home&app='.$id;
-			$arr['association']	= array();
-			$arr['type']		= $data['type'];
-			$astn = mysqli_query(self::mysqli_connect(), "SELECT * FROM `association`"); 
-			while($rows = mysqli_fetch_assoc($astn))
-				$arr['association'][$rows['type']] = $rows['app_id'];
-		}else
-			$arr['isset_sql'] = false;
+		if(mysqli_num_rows($q) != 1) return $arr['isset_sql'] = false;
+		$data = mysqli_fetch_assoc($q);
+		$arr['dir'] 		= '/'.$data['dir'];
+		$arr['tmp'] 		= new Temp($arr['dir'].'/');
+		$arr['sys']			= ($data['system'] == 1) ? true : false;
+		$arr['isset_dir'] 	= is_dir(ROOT_PATH.$arr['dir']);
+		$arr['isset_code'] 	= file_exists(ROOT_PATH.$arr['dir'].'/code.php');
+		$arr['isset_sql']	= true;
+		$arr['url_app'] 	= '/?path=home&app='.$id;
+		$arr['association']	= array();
+		$arr['type'] 		= $data['type'];
+		$astn = mysqli_query(self::mysqli_connect(), "SELECT * FROM `association`"); 
+		while($rows = mysqli_fetch_assoc($astn))
+			$arr['association'][$rows['type']] = $rows['app_id'];
 		return $arr;
 	}
-
+	/*
+		Назначение функции: Генерация хэша пароля
+		Входящие параметры: Пароль
+	*/
 	public static function password($data)
 	{
 		return md5(strrev(sha1($data)."Quareal_xCloud_Project".sha1($data)));
 	}
-
+	/*
+		Назначение функции: Массив конфигурации xCloud
+		Входящие параметры: Нет
+	*/
 	public static function get_config()
 	{
 		$data = mysqli_fetch_assoc(mysqli_query(self::mysqli_connect(), "SELECT * FROM `settings`"));
 		return (array)json_decode($data['json_config']);
 	}
-
+	/*
+		Назначение функции: Перевод символов
+		Входящие параметры: Строка
+	*/
 	public static function escape($string)
 	{
-		$string = str_replace( "&#032;"				, " "			  , $string );
-        $string = str_replace( "&"					, "&amp;"         , $string );
-        $string = str_replace( "<!--"				, "&#60;&#33;--"  , $string );
-        $string = str_replace( "-->"				, "--&#62;"       , $string );
-        $string = preg_replace( "/<script/i"		, "&#60;script"   , $string );
-        $string = str_replace( ">"					, "&gt;"          , $string );
-        $string = str_replace( "<"					, "&lt;"          , $string );
-        $string = str_replace( "\""					, "&quot;"        , $string );
-		$string = str_replace( "\&quot;"			, "&quot;"        , $string );
-		$string = str_replace( "\'"					, "&#39;"         , $string );
-        $string = preg_replace( "/\n/"				, "<br />"        , $string ); 
-        $string = preg_replace( "/\\\$/"			, "&#036;"        , $string );
-        $string = preg_replace( "/\r/"				, ""              , $string );
-        $string = str_replace( "!"					, "&#33;"         , $string );
-        $string = str_replace( "'"					, "&#39;"         , $string ); 
-        $string = preg_replace("/&amp;#([0-9]+);/s"	, "&#\\1;"		  , $string );
+		$string = str_replace(	"&#032;"			, " " 			, $string);
+		$string = str_replace(	"&"					, "&amp;" 		, $string);
+		$string = str_replace(	"<!--"				, "&#60;&#33;--", $string);
+		$string = str_replace(	"-->"				, "--&#62;" 	, $string);
+		$string = preg_replace(	"/<script/i"		, "&#60;script"	, $string);
+		$string = str_replace(	">"					, "&gt;" 		, $string);
+		$string = str_replace(	"<"					, "&lt;" 		, $string);
+		$string = str_replace(	"\""				, "&quot;" 		, $string);
+		$string = str_replace(	"\&quot;"			, "&quot;" 		, $string);
+		$string = str_replace(	"\'"				, "&#39;" 		, $string);
+		$string = preg_replace(	"/\n/"				, "<br />" 		, $string); 
+		$string = preg_replace( "/\\\$/"			, "&#036;" 		, $string);
+		$string = preg_replace( "/\r/"				, "" 			, $string);
+		$string = str_replace(	"!"					, "&#33;" 		, $string);
+		$string = str_replace(	"'"					, "&#39;" 		, $string); 
+		$string = preg_replace(	"/&amp;#([0-9]+);/s", "&#\\1;" 		, $string);
 		if(get_magic_quotes_runtime()) $string = stripslashes($string);
 		return $string;
 	}
-
+	/*
+		Назначение функции: Является ли файл изображением
+		Входящие параметры: Путь к файлу
+	*/
 	public static function is_image($path) 
 	{
-		$is = @getimagesize($path);
-		if(!$is) return false;
+		$is = @getimagesize($path); if(!$is) return false;
 		elseif(!in_array($is[2], array(1,2,3))) return false;
 		else return true;
 	}
-
+	/*
+		Назначение функции: Ссылка на xCloud
+		Входящие параметры: Нет
+	*/
 	public static function url()
 	{
 		return (($_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://').$_SERVER['HTTP_HOST'];
 	}
-
+	/*
+		Назначение функции: Является ли параметр типом int
+		Входящие параметры: Переменная
+	*/
 	private static function isint($int)
 	{
 		settype($int, "integer");
 		return is_int($int);
 	}
-/*
-	private function key_generator()
-	{
-		$arr = array(
-			'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r',
-			's','t','u','v','x','y','z','1','2','3','4','5','6','7','8','9','0'
-		);
-
-		$hash = '';
-		$number = rand(5, 15);
-
-		for($i=0;$i<$number;$i++)
-		{
-			$hash .= $arr[rand(0, count($arr)-1)];
-		}
-
-	    return md5($hash);
-	}*/
 }
-# Шаблонизатор
-
+/*
+	Класс: Temp
+	Служит для сборки шаблона из переменных из отдельных файлов.
+*/
 class Temp
 {
 	private $_path;
 	private $_template;
 	private $_var = array();
-	# Пусть к директории с шаблонами от корня домена ($_SERVER['DOCUMENT_ROOT'])
+	/*
+		Назначение функции: Определения пути к шаблонам
+		Входящие параметры: Путь к каталогу
+	*/
 	public function __construct($path = '')
 	{
 		$this->_path = $_SERVER['DOCUMENT_ROOT'] . $path;
 	}
-	# Присваивает значение переменной
+	/*
+		Назначение функции: Присваивает значение переменной
+		Входящие параметры: Имя переменной, значение
+	*/
 	public function set($name, $value)
 	{
 		$this->_var[$name] = $value;
 	}
-	# Присваивает значение переменной массива
+	/*
+		Назначение функции: Присваивает/дополняет значение переменной массива
+		Входящие параметры: Имя переменной, значение
+	*/
 	public function set_cycle($name, $value)
 	{
 		$this->_var[$name] .= $value;
 	}
-	# Получает значение переменной
+	/*
+		Назначение функции: Получает значение переменной
+		Входящие параметры: Имя переменной
+	*/
 	public function __get($name)
 	{
 		if (isset($this->_var[$name])) return $this->_var[$name];
 		return '';
 	}
-	# Собирает шаблон и выводит его на экран
+	/*
+		Назначение функции: Собирает шаблон и выводит его на экран
+		Входящие параметры: Имя шаблона, тип ответа
+	*/
 	public function display($template, $return = false)
 	{
 		$this->_template = $this->_path . $template;
-		if (!file_exists($this->_template)) die('Шаблона ' . $this->_template . ' не существует!');
-
-		ob_start();
-		include($this->_template);
-		if($return)
-			return ob_get_clean();
-		else
-			echo ob_get_clean();
+		if(!file_exists($this->_template)) die('Шаблона ' . $this->_template . ' не существует!');
+		ob_start(); include($this->_template);
+		if($return) return ob_get_clean();
+		else echo ob_get_clean();
 	}
+	/*
+		Назначение функции: Удаление лишних спецсимволов
+		Входящие параметры: Строка
+	*/
 	private function _strip($data)
 	{
 		$lit = array("\\t", "\\n", "\\n\\r", "\\r\\n", "  ");
 		$sp = array('', '', '', '', '');
 		return str_replace($lit, $sp, $data);
 	}
-	# Защита от XSS
+	/*
+		Назначение функции: Защита от XSS
+		Входящие параметры: Строка
+	*/
 	public function xss($data)
 	{
-		if (is_array($data)) 
+		if(is_array($data)) 
 		{
 			$escaped = array();
 			foreach ($data as $key => $value) 

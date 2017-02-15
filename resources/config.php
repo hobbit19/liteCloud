@@ -3,9 +3,9 @@
 
 // DATABASE INFO
 define('DB_SERVER',		'localhost');
-define('DB_DATABASE',	'');
-define('DB_USER',		'');
-define('DB_PASS',		'');
+define('DB_DATABASE',	'YOUR_VALUE_DB_DATABASE');
+define('DB_USER',		'YOUR_VALUE_DB_USER');
+define('DB_PASS',		'YOUR_VALUE_DB_PASS');
 
 // GLOBAL VARS
 define('LOCAL', 		$_SERVER['HTTP_HOST']);

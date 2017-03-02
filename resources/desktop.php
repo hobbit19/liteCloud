@@ -2,8 +2,8 @@
 if(isset($_POST['app']) && !empty($_POST['app']))
 {
 	# Извлекаем данные приложения
-	$APP = Project::app_data($_POST['app']);
-	$error = true; $_app = false; $css = '';
+	$APP = Project::app_data($_POST['app']); $css = '';
+	$error = true; $_app = false; $min_app = false;
 
 	if($APP['isset_dir'] && $APP['isset_code'] && $APP['isset_sql'])
 	{
@@ -21,7 +21,6 @@ if(isset($_POST['app']) && !empty($_POST['app']))
 		}else
 		{
 			$css = $content['css'];
-			$min_app = false;
 			$tmp->set('title', 			$content['title']);
 			$tmp->set('content',		$content['html']);
 			$tmp->set('history_back',	$_POST['history_url']);
@@ -42,7 +41,7 @@ if(isset($_POST['app']) && !empty($_POST['app']))
 	# Генерация списка приложений
 	while($rows = mysqli_fetch_assoc($q))
 	{
-		$data = Project::xml_app($rows['id']);
+		$data = Project::appinfo($rows['id']);
 		$html .= "
 		<li id=\"app_li\">
 			<a href=\"/?path=home&app={$rows['id']}\" id=\"block_app\">
@@ -50,7 +49,7 @@ if(isset($_POST['app']) && !empty($_POST['app']))
 					<img src=\"/{$rows['dir']}/ico.png\">
 				</div>
 				<div id=\"title_app\">
-					<span>{$data->NAME}</span>
+					<span>{$data['name']}</span>
 				</div>
 			</a>
 		</li>";

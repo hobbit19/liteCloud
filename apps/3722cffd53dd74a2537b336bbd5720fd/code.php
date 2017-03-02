@@ -20,6 +20,7 @@ if($dir == '::error')
 	$APP['tmp']->set_cycle('content', 'kjk');
 }else
 {
+		$alias_info = Project::app_alias('fileinfo');
 		$data = Project::scan_dir($dir);
 		$dir_ex = explode('/', $_POST['dir']);
 		$bh = ''; $menu = '<a href="#"><div id="add_fl_i"></div><div id="add_fl_t"> Создать</div></a>
@@ -45,7 +46,7 @@ if($dir == '::error')
 					if(!empty($data['dirs'][$j]['name']))
 						$APP['tmp']->set_cycle('content', '
 						<div href="'.$APP['url_app'].'&dir='.urlencode($_POST['dir'].$data['dirs'][$j]['name']).'/" id="block_ff">
-						<a target="_blank" href="'.Project::url().'/?path=get&file='.urlencode($_POST['dir'].$data['dirs'][$j]['name']).'">
+						<a href="/?path=home&app='.$alias_info['id'].'&file='.urlencode($_POST['dir'].$data['dirs'][$j]['name']).'&history_url='.urlencode($APP['history']).'">
 						<img id="blockinf" src="'.$APP['dir'].'/icons/thumb.png"></a><a href="'.$APP['url_app'].'&dir='.urlencode($_POST['dir'].$data['dirs'][$j]['name']).'/">
 						<div class="cont_n"><img src="'.$APP['dir'].'/icons/dir.png"></div><div class="title_n">'.$data['dirs'][$j]['name'].'</div></a></div>');
 			if(count($data['files']) > 0)
@@ -58,11 +59,11 @@ if($dir == '::error')
 						$name = (strlen($data['files'][$j]['name']) > 19) ?  substr($data['files'][$j]['name'], 0, 17).'...'.mb_substr($dot, 0, 5, 'UTF-8') : $data['files'][$j]['name'];
 						if(isset($APP['association'][$file_type]))
 							$url = 'href="/?path=home&app='.$APP['association'][$file_type].'&file_path='.urlencode($_POST['dir'].$data['files'][$j]['name']).'&history_url='.urlencode($APP['history']).'"';
-						else $url = 'href="'.Project::url().'/?path=get&file='.urlencode($_POST['dir'].$data['files'][$j]['name']).'&download" target="_self"';
+						else $url = 'href="/?path=get&file='.urlencode($_POST['dir'].$data['files'][$j]['name']).'&download" target="_self"';
 						$file_ico = (file_exists(ROOT_PATH.$APP['dir'].'/icons/'.$file_type.'.png')) ? $APP['dir'].'/icons/'.$file_type.'.png' : $APP['dir'].'/icons/Anknow.png';
 						$APP['tmp']->set_cycle('content', '
 						<div id="block_ff">
-						<a target="_blank" href="'.Project::url().'/?path=get&file='.urlencode($_POST['dir'].$data['files'][$j]['name']).'"><img id="blockinf" src="'.$APP['dir'].'/icons/thumb.png"></a>
+						<a href="/?path=home&app='.$alias_info['id'].'&file='.urlencode($_POST['dir'].$data['files'][$j]['name']).'&history_url='.urlencode($APP['history']).'"><img id="blockinf" src="'.$APP['dir'].'/icons/thumb.png"></a>
 						<a '.$url.'><div class="cont_n"><img src="'.$file_ico.'">
 						</div><div class="title_n">'.$name.'</div></a></div>');
 					}
@@ -78,6 +79,5 @@ if($dir == '::error')
 return array(
 	'html' 	=> $APP['tmp']->display('html.tmp', true), 
 	'css' 	=> $APP['tmp']->display('app.css', 	true), 
-	'js' 	=> $APP['tmp']->display('app.js', 	true), 
 	'title' => 'Менеджер памяти'
 );

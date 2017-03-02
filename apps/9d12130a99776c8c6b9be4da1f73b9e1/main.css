@@ -1,0 +1,64 @@
+.info {
+padding:20px;
+border-radius:5px;
+background:rgba(249, 249, 249, .8);
+}
+
+.filet {
+display:inline-block;
+float:left;
+text-align:center;
+}
+
+.block11f {
+width:161px;
+height:130px;
+border:1px solid #E3E3E3;
+background:#fff;
+text-align:center;
+}
+
+.block11f img {
+width:54px;
+height:54px;
+margin:38px auto;
+}
+
+#text {
+display:inline-block;
+padding-left:20px;
+max-width:507px;
+font-size:13px;
+}
+
+.info b {
+display:inline-block;
+width:135px;
+}
+
+.info span {
+display:block;
+}
+
+#download, #remove, #rename {
+display:inline-block;
+margin-top:7px;
+color:#2ED207;
+width:145px;
+border:0px;
+border-bottom:1px solid #2ED207;
+padding:5px;
+margin-right:15px;
+text-align:center;
+}
+
+#remove {
+color:RGBA(210, 7, 7, .56);
+border-bottom:1px solid RGBA(210, 7, 7, .56);
+margin:0px;
+}
+
+#rename {
+color:RGBA(126, 132, 29, .6);
+border-bottom:1px solid RGBA(126, 132, 29, .6);
+}

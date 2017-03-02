@@ -25,7 +25,7 @@ class Project
 	{
 		$data_db = mysqli_fetch_assoc(mysqli_query(self::mysqli_connect(), "SELECT `login` FROM `users` WHERE `root`='1'"));
 		$arr['install']	= (count($data_db) > 0) ? true : false;
-		return (empty($tag)) ? $arr : $arr[$tag];
+		return (empty($tag) || !isset($arr[$tag])) ? $arr : $arr[$tag];
 	}
 	/*
 		Назначение функции: Расчет свободного места на сервере
@@ -141,16 +141,11 @@ class Project
 		Назначение функции: Вывод конфигурации приложения
 		Входящие параметры: id приложения
 	*/
-	public static function xml_app($id)
+	public static function appinfo($id)
 	{
 		if(!self::isint($id)) return;
-		$q = mysqli_fetch_assoc(mysqli_query(self::mysqli_connect(), "SELECT * FROM `apps` WHERE `id`='{$id}'"));
-		$file = './'.$q['dir'].'/config.xml';
-		if(file_exists($file))
-		{
-			$xml = simplexml_load_file($file);
-			return $xml->INTERNALS[0];
-		}
+		$q = mysqli_fetch_assoc(mysqli_query(self::mysqli_connect(), "SELECT `config` FROM `apps` WHERE `id`='{$id}'"));
+		return (!empty($q['config']) && self::is_json($q['config'])) ? (array)json_decode($q['config'], true) : array('name' => 'Безымянный', 'description' => 'Без описания.');
 	}
 	/*
 		Назначение функции: API для подключаемых приложений и массива ассоциаций
@@ -162,15 +157,15 @@ class Project
 		$q = mysqli_query(self::mysqli_connect(), "SELECT * FROM `apps` WHERE `id`='{$id}'");
 		if(mysqli_num_rows($q) != 1) return $arr['isset_sql'] = false;
 		$data = mysqli_fetch_assoc($q);
-		$arr['dir'] 		= '/'.$data['dir'];
-		$arr['tmp'] 		= new Temp($arr['dir'].'/');
+		$arr['dir']			= '/'.$data['dir'];
+		$arr['tmp']			= new Temp($arr['dir'].'/');
 		$arr['sys']			= ($data['system'] == 1) ? true : false;
-		$arr['isset_dir'] 	= is_dir(ROOT_PATH.$arr['dir']);
-		$arr['isset_code'] 	= file_exists(ROOT_PATH.$arr['dir'].'/code.php');
+		$arr['isset_dir']	= is_dir(ROOT_PATH.$arr['dir']);
+		$arr['isset_code']	= file_exists(ROOT_PATH.$arr['dir'].'/code.php');
 		$arr['isset_sql']	= true;
-		$arr['url_app'] 	= '/?path=home&app='.$id;
+		$arr['url_app']		= '/?path=home&app='.$id;
 		$arr['association']	= array();
-		$arr['type'] 		= $data['type'];
+		$arr['type']		= $data['type'];
 		$astn = mysqli_query(self::mysqli_connect(), "SELECT * FROM `association`"); 
 		while($rows = mysqli_fetch_assoc($astn))
 			$arr['association'][$rows['type']] = $rows['app_id'];
@@ -244,6 +239,36 @@ class Project
 	{
 		settype($int, "integer");
 		return is_int($int);
+	}
+	/*
+		Назначение функции: Является ли строка JSON объектом
+		Входящие параметры: Json строка
+	*/
+	private static function is_json($string)
+	{
+		return ((is_string($string) && (is_object(json_decode($string)) || is_array(json_decode($string))))) ? true : false;
+	}
+	/*
+		Назначение функции: Поиск id приложения по алиасу
+		Входящие параметры: Алиас приложения
+	*/
+	public static function app_alias($alias='')
+	{
+		$aldb = self::escape($alias);
+		if(empty($aldb)) return;
+		return mysqli_fetch_assoc(mysqli_query(self::mysqli_connect(), "SELECT `id` FROM `apps` WHERE `alias`='{$aldb}'"));
+	}
+	/*
+		Назначение функции: Определение положения файла/папки
+		Входящие параметры: Путь, тип
+	*/
+	public static function doc_way($way, $type=0)
+	{
+		$config = self::get_config();
+		$_way = str_replace('../', '', urldecode($way));
+		$file_d = $config['home_path'].(($_way[0] == '/') ? $_way : '/'.$_way);
+		$file_e = $config['home_path'].(($way[0] == '/') ? $way : '/'.$way);
+		return ($type == 0) ? ((is_dir($file_d)) ? $file_d : $file_e) : ((file_exists($file_d)) ? $file_d : $file_e);
 	}
 }
 /*

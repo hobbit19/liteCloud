@@ -51,9 +51,10 @@ if(isset($_COOKIE['id']) && !empty($_COOKIE['id']))
 		# Обнуляем данные фонового приложения
 		setcookie('miniapp', '');
 
-		# Генерация гл. страницы	
-		$arr = mysqli_fetch_assoc(mysqli_query($_DATABASE, "SELECT `id` FROM `apps` WHERE `alias`='user_editor'"));
+		# Поиск id приложения Редактор профиля
+		$arr = Project::app_alias('user_editor');
 
+		# Генерация гл. страницы
 		if($_USER['mobile'])
 		{
 			$tmp->set('edt_url', 	'/?path=home&app='.$arr['id']);

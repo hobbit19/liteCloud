@@ -1,7 +1,6 @@
 # xCloud - Информация
 Система пользовательского управления сервером, манипуляций файлами с рядом системных и вспомогательных ПО. Эту систему можно назвать домашним облаком с поддержкой многозадачности и более расширенным функционалом.
-- Разработчик: RVA ( Quareal Foundation )
-- Сайт проекта ( в разработке ): https://projects.quareal.ru/
+- Разработчик: RVA
 - Группа в ВК: https://vk.com/rvaprojects
 - Страница GitHub: https://github.com/rvasources/
 ![Главная страница](https://github.com/rvasources/media/blob/master/main.png)

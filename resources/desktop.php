@@ -15,7 +15,7 @@ if(isset($_POST['app']) && !empty($_POST['app']))
 		# Генерация щаблона в переменную $html
 		if($APP['type'] == 2)
 		{
-			setcookie('miniapp', json_encode(array('id' => $_POST['app'], 'content' => $content['control'])));
+			setcookie('miniapp', json_encode(array('id' => $_POST['app'], 'content' => $content['control']))); // <-- Ебаный костыль, надо будет переделать, когда придумаю схему получше
 			$min_app = true;
 			$html = $content['daemon'];
 		}else
@@ -23,7 +23,7 @@ if(isset($_POST['app']) && !empty($_POST['app']))
 			$css = $content['css'];
 			$tmp->set('title', 			$content['title']);
 			$tmp->set('content',		$content['html']);
-			$tmp->set('history_back',	$_POST['history_url']);
+			$tmp->set('history_back',	(isset($_POST['history_url'])) ? $_POST['history_url'] : "/?path=home");
 			$html = $tmp->display('window.tmp', true);
 		}
 	}else

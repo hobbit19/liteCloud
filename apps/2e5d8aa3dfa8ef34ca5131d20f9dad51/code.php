@@ -36,7 +36,7 @@
 		</div>');
 	}
 
-	if($_POST['page'] == '2')
+	if(isset($_POST['page']) && $_POST['page'] == '2')
 	{
 		$q = mysql_query("SELECT * FROM account");
 		if(mysql_num_rows($q) > 0)
@@ -61,7 +61,7 @@
 		}
 	}
 
-	if($_POST['page'] == '6')
+	if(isset($_POST['page']) && $_POST['page'] == '6')
 	{
 		$APP['tmp']->set('content', '
 		<div style="padding:10px;">

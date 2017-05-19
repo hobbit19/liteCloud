@@ -1,0 +1,30 @@
+#textbox {
+display:block;
+border:0px;
+width:100%;
+border-top:1px solid #DADADA;
+padding:5px;
+background:#fff;
+outline:0px;
+resize:none;
+height:440px;
+}
+
+#buttons_panel {
+line-height:40px;
+padding-left:5px;
+background:linear-gradient(rgba(243, 243, 243, 0.18), #fff);
+text-align:right;
+background:rgba(243, 243, 243, 0.26);
+}
+
+#buttons_panel #button {
+padding:5px;
+border-radius:3px;
+padding-left:8px;
+background:#fff;
+margin-right:10px;
+color:#B3B3B3;
+padding-right:8px;
+border:1px solid #D4D4D4;
+}

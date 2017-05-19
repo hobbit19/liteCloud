@@ -136,3 +136,13 @@ function resizewin()
 	else
 		$(".application").attr('id', 'a_c')
 }
+
+function delnot(id)
+{
+	$("#notice_" + id).hide(150);
+	$.ajax({
+		url:		"/?content",
+		type:		"POST",
+		data:		"notice=" + id + "&path=notice"
+	});
+}

@@ -15,7 +15,9 @@ class Project
 	*/
 	public static function mysqli_connect()
 	{
-		return mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE);
+		$db = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_DATABASE);
+		mysqli_set_charset($db, "utf8");
+		return $db;
 	}
 	/*
 		Назначение функции: Вывод общей информации системы
@@ -135,7 +137,7 @@ class Project
 				'rules' => json_decode($data['rules']), 'root' => $data['root'], 'login' => $data['login'], 
 				'avatar' => $data['avatar'], 'mobile' => self::is_mobile()
 			);
-		}else return false;
+		}else return array();
 	}
 	/*
 		Назначение функции: Вывод конфигурации приложения
@@ -159,7 +161,6 @@ class Project
 		$data = mysqli_fetch_assoc($q);
 		$arr['dir']			= '/'.$data['dir'];
 		$arr['tmp']			= new Temp($arr['dir'].'/');
-		$arr['sys']			= ($data['system'] == 1) ? true : false;
 		$arr['isset_dir']	= is_dir(ROOT_PATH.$arr['dir']);
 		$arr['isset_code']	= file_exists(ROOT_PATH.$arr['dir'].'/code.php');
 		$arr['isset_sql']	= true;
@@ -178,6 +179,20 @@ class Project
 	public static function password($data)
 	{
 		return md5(strrev(sha1($data)."Quareal_xCloud_Project".sha1($data)));
+	}
+	/*
+		Назначение функции: Определение полного пути
+		Входящие параметры: Входящий путь
+	*/
+	public static function fullpath($way)
+	{
+		$full = self::get_config();
+		$nway = self::spashes_replace($way);
+		
+		if($nway[0] == "/")
+			return (is_file($full['home_path'] . $nway) || is_dir($full['home_path'] . $nway)) ? $full['home_path'] . $nway : '/';
+		else 
+			return (is_file($full['home_path'] . "/" . $nway) || is_dir($full['home_path'] . "/" . $nway)) ? $full['home_path'] . "/" . $nway : '/';
 	}
 	/*
 		Назначение функции: Массив конфигурации xCloud
@@ -213,6 +228,13 @@ class Project
 		if(get_magic_quotes_runtime()) $string = stripslashes($string);
 		return $string;
 	}
+
+	public static function spashes_replace($string)
+	{
+		$nstr = str_replace( "../", 	"", 	$string);
+		$nstr = str_replace( "//", 		"", 	$nstr);
+		return  str_replace( "./", 		"", 	$nstr);
+	}
 	/*
 		Назначение функции: Является ли файл изображением
 		Входящие параметры: Путь к файлу
@@ -235,7 +257,7 @@ class Project
 		Назначение функции: Является ли параметр типом int
 		Входящие параметры: Переменная
 	*/
-	private static function isint($int)
+	public static function isint($int)
 	{
 		settype($int, "integer");
 		return is_int($int);
@@ -269,6 +291,29 @@ class Project
 		$file_d = $config['home_path'].(($_way[0] == '/') ? $_way : '/'.$_way);
 		$file_e = $config['home_path'].(($way[0] == '/') ? $way : '/'.$way);
 		return ($type == 0) ? ((is_dir($file_d)) ? $file_d : $file_e) : ((file_exists($file_d)) ? $file_d : $file_e);
+	}
+	/*
+		Назначение функции: Добавление записей в уведомления
+		Входящие параметры: id приложения, сообщение
+	*/
+	public static function notice_add($id, $message)
+	{
+		if(!self::isint($id) || $id <= 0) return false;
+		$data = mysqli_fetch_assoc(mysqli_query(self::mysqli_connect(), "SELECT `dir`, `config` FROM `apps` WHERE `id`='{$id}'"));
+		if(count($data) < 1) return false;
+		if(mysqli_query(self::mysqli_connect(), "INSERT INTO `notices` (`id`, `dir`, `content`) VALUES (NULL, '{$data['dir']}', '".htmlspecialchars($message)."')"))
+			return true;
+		else return false;
+	}
+	/*
+		Назначение функции: Добавление записей в уведомления (системные уведомления)
+		Входящие параметры: Сообщение
+	*/
+	private static function notice_sys($message)
+	{
+		if(mysqli_query(self::mysqli_connect(), "INSERT INTO `notices` (`id`, `dir`, `content`) VALUES (NULL, NULL, '".htmlspecialchars($message)."')"))
+			return true;
+		else return false;
 	}
 }
 /*

@@ -1,4 +1,7 @@
 ﻿<?php
+# Кодировка UTF-8
+header('Content-Type: text/html; charset=utf-8');
+
 # Подключение библиотеки
 include("./resources/project.class.php");
 
@@ -25,7 +28,7 @@ if(!Project::info('install') && $_GET['path'] != 'install')
 }
 
 # Системные переменные
-$_USER 		= Project::user($_COOKIE['id']);
+$_USER 		= (isset($_COOKIE['id'])) ? Project::user($_COOKIE['id']) : array();
 $_SETTINGS	= Project::get_config();
 
 # Вывод контента

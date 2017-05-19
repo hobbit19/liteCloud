@@ -78,7 +78,7 @@ if(isset($_COOKIE['id']) && !empty($_COOKIE['id']))
 		$username = Project::escape($_POST['username']);
 		$password = Project::password($_POST['password']);
 
-		$data = mysqli_fetch_assoc(mysqli_query($_DATABASE, "SELECT * FROM `users` WHERE `login`='{$username}' AND `password`='{$password}'"));
+		$data = mysqli_fetch_assoc(mysqli_query($_DATABASE, "SELECT `id`, `root` FROM `users` WHERE `login`='{$username}' AND `password`='{$password}'"));
 		if(!empty($data['id']) && !empty($data['root']))
 		{
 			setcookie('id', $data['id']);

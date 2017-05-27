@@ -1,0 +1,7 @@
+<div id="error">
+    <h1>Ошибка приложения</h1>
+    <div id="main"><?=$this->message?></div>
+    <div id="buttons">
+        <span href="ok" onclick="load_close()">Применить</span>
+    </div>
+</div>

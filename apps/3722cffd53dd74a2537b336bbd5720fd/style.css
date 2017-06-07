@@ -1,0 +1,23 @@
+#content_file {
+padding:1%;
+}
+
+#block_file {
+width:10%;
+height:165px;
+text-align:center;
+display:inline-block;
+border-radius:7px;
+}
+
+#block_file:hover {
+background:rgba(123, 115, 115, 0.03);
+}
+
+#block_file img {
+width:70%;
+}
+
+#block_file #title_file {
+font-size:1.3em;
+}

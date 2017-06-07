@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 19, 2017 at 02:38 PM
+-- Generation Time: Jun 07, 2017 at 06:55 AM
 -- Server version: 5.5.55
 -- PHP Version: 5.4.45-0+deb7u8
 
@@ -42,11 +42,9 @@ CREATE TABLE IF NOT EXISTS `apps` (
 
 INSERT INTO `apps` (`id`, `dir`, `config`, `alias`, `version`, `type`) VALUES
 (1, 'apps/2e5d8aa3dfa8ef34ca5131d20f9dad51', '{"name":"Настройки","description":"Настройки системы, для полного доступа в это приложение нужно иметь root права."}', 'settings', 0, 0),
-(2, 'apps/3722cffd53dd74a2537b336bbd5720fd', '{"name":"Менеджер памяти","description":"Данная программа поможет вам выполнять всевозможные действия с Вашими файлами и подключенными устройствами."}', 'file_manager', 0, 0),
-(3, 'apps/0cfd653d5d3e1e9fdbb644523d77971d', '{"name":"dolphx","description":"Используйте свое устройство с технической точки зрения."}', '', 0, 0),
-(4, 'apps/e9a847ba61b7bab6d65f7bb83e2d947b', '{"name":"Apps Market","description":"Встроенный магазин приложений Quareal для Вашего устройства."}', 'apps_market', 0, 0),
-(5, 'apps/05b47614107eb2dd346f747a48936456', '{"name":"Редактор txt","description":"Данная программа поможет вам выполнять всевозможные действия с Вашими файлами и подключенными устройствами."}', '', 0, 1),
-(6, 'apps/bd1a5d7f1baf4a7c78dce7fb26e094d7', '{"name":"Обозреватель картинок","description":"Данная программа поможет вам выполнять всевозможные действия с Вашими файлами и подключенными устройствами."}', '', 0, 1),
+(2, 'apps/3722cffd53dd74a2537b336bbd5720fd', '{"name":"Файлы","description":"Данная программа поможет вам выполнять всевозможные действия с Вашими файлами и подключенными устройствами."}', 'file_manager', 0, 0),
+(5, 'apps/05b47614107eb2dd346f747a48936456', '{"name":"Приложения","description":"ываываываыва."}', '', 0, 0),
+(6, 'apps/bd1a5d7f1baf4a7c78dce7fb26e094d7', '{"name":"Уведомления","description":"Дываыв."}', '', 0, 0),
 (7, 'apps/a0b63292bf6b619396f71a4dd96b8ed2', '{"name":"Редактор аккаунта","description":"Программа служит для редактирования персональных данных пользователя."}', 'user_editor', 1, 1),
 (8, 'apps/fc7afaaaf50a046f73b1000de5f0f6b8', '{"name":"Музыкальный плеер","description":"Плеер для прослушивания музыки."}', '', 0, 2),
 (9, 'apps/9d12130a99776c8c6b9be4da1f73b9e1', '{"name":"Информация о файле", "description":"Информация о файле."}', 'fileinfo', 1, 1);
@@ -99,26 +97,6 @@ INSERT INTO `notices` (`id`, `dir`, `content`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `settings`
---
-
-CREATE TABLE IF NOT EXISTS `settings` (
-  `json_config` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `settings`
---
-
-INSERT INTO `settings` (`json_config`) VALUES
-('{"account":"test@quareal.ru","home_path":"/home/pi"}'),
-('{"account":"test@quareal.ru","home_path":"/home/pi"}'),
-('{"account":"test@quareal.ru","home_path":"/home/pi"}'),
-('{"account":"test@quareal.ru","home_path":"/home/pi"}');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -137,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `login`, `password`, `root`, `avatar`, `rules`) VALUES
-(1, 'test', '6216e45324b366f466da22424486d8a1', 1, '/resources/assets/img/noavatar.png', '');
+(1, 'test', '890363a7b2f93f52b71c6d6410a2a9d3', 1, '/resources/assets/img/noavatar.png', '');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

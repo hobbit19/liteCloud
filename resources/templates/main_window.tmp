@@ -5,15 +5,17 @@
 		<meta charset="UTF-8"/>
 		<meta name="format-detection" content="telephone=no"/>
 		<link href="/resources/css/OpenSans.css" rel="StyleSheet" type="text/css"/>
+		<link href="/?appstyle" rel="StyleSheet" type="text/css"/>
 		<link href="/resources/css/animation.css" rel="StyleSheet" type="text/css"/>
 		<link href="/resources/css/home.css" rel="StyleSheet" type="text/css"/>
 		<script src="/resources/javascript/jquery-1.7.2.js"></script>
-		<script src="/resources/javascript/jquery.checkbox.js"></script>
 		<script src="/resources/javascript/ui.js"></script>
 	</head>
 	<body>
 		<div aria-blur="true" class="content">
+			<div aria-blur="false" class="data"></div>
 			<div class="menu">
+				<div id="applications"></div>
 				<span>
 					<div id="info">
 						<div id="bell_panel"></div>
@@ -25,9 +27,7 @@
 						<h2><div id="open"></div></h2>
 					</div>
 				</span>
-
 			</div>
-			<div aria-blur="false" class="data"></div>
 		</div>
 		<div class="load_page" aria-hidden="true"><div class="spin"></div></div>
 	</body>

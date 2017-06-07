@@ -18,6 +18,10 @@ class Cloud
 	*/
     public static $profile = array();
     /*
+		Назначение переменной: Указатель на системные функции
+	*/
+    public static $system;
+    /*
 		Назначение функции: Создание указателя бд
 		Входящие параметры: Массив данных для подключения
 	*/
@@ -38,12 +42,13 @@ class Cloud
     public static function handshake($config)
     {
         // Ставим заголовок с кодировкой проекта
-        header('Content-Type: text/html; charset=utf-8');
-        // Заполнение указателей пользователя и шаблонизатора и базы данных
+        if (!isset($_GET['appstyle'])) header('Content-Type: text/html; charset=utf-8');
+        // Заполнение указателей пользователя, шаблонизатора, базы данны, системы и профиля
         self::mysqlconnect($config['mysql']);
         self::$profile  = self::account(((isset($_COOKIE['id'])) ? $_COOKIE['id'] : 0));
         self::$template = new tempengine($config['template']);
         self::$application = new application(self::$mysqli);
+        self::$system   = new system($config['path']);
     }
     /*
 		Назначение функции: Тип подключенного устройства
@@ -91,7 +96,7 @@ class Cloud
 		Назначение функции: Определение путей и выдачи контента
 		Входящие параметры: Массив контроллеров
 	*/
-    public static function interface_get($controller = array())
+    public static function __interface($controller = array())
     {
         // Вывод запрашиваемого контроллера
         if(self::$profile['is_login'] && isset($_GET['application']))
@@ -150,7 +155,7 @@ class Cloud
                 $array = mysqli_fetch_assoc($query);
                 setcookie("id", $array['id']);
                 // Переадресация на страницу приложений
-                header('Location: /?controller=1');
+                header('Location: /?application=0');
                 exit;
             }
         }

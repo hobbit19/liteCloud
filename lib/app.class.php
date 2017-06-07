@@ -37,6 +37,25 @@ class application
         }
     }
     /*
+        Назначение функции: Получение выходного параметра приложения
+        Входящие параметры: id приложения, имя параметра
+    */
+    public function appoprion($id = 0, $option = '', $application = array())
+    {
+        // Проверка входящего параметра
+        if(!Guard::isint($id) || empty($option)) return NULL;
+        // Запрос на получения пути к приложении и создание массива
+        $q = mysqli_query(self::$mysqli, "SELECT `dir` FROM `apps` WHERE `id`='{$id}'");
+        // Если приложения не существует
+        if(mysqli_num_rows($q) != 1) return NULL;
+        $array = mysqli_fetch_array($q);
+        // Проверка приложения
+        if(!$this->is_app($array)) return NULL;
+        // Подключение приложение и возвращаем значение массива
+        $app = include "{$_SERVER['DOCUMENT_ROOT']}/{$array['dir']}/code.php";
+        if(isset($app[$option])) return $app[$option];
+    }
+    /*
 		Назначение функции: Получение информации о приложении по id
 		Входящие параметры: Опознователь
 	*/
@@ -104,10 +123,9 @@ class application
     */
     private function is_app($array = array())
     {
-        $path = $_SERVER['DOCUMENT_ROOT'] . "/" . $array['dir'];
+        $path = "{$_SERVER['DOCUMENT_ROOT']}/{$array['dir']}";
         // Возвращаем ответ при существовании всех компонентов
-        if(is_dir($path) && file_exists($path . "/code.php") && file_exists($path . "/ico.png"))
-            return true;
+        if(is_dir($path) && file_exists("{$path}/code.php")) return true;
         return false;
     }
     /*
@@ -118,7 +136,7 @@ class application
     {
         $apiarray = array();
         // Системные возможности работы с приложениями
-        $apiarray['template'] = new tempengine("{$_SERVER['DOCUMENT_ROOT']}/{$array['dir']}/");
+        $apiarray['template'] = new tempengine("/{$array['dir']}/");
         $apiarray['urlapp'] = "/?application={$array['id']}";
         $apiarray['type'] = $array['type'];
         $apiarray['association'] = array();

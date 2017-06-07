@@ -60,7 +60,7 @@ class Guard
 	public static function is_image($path)
 	{
 		$is = @getimagesize($path); if(!$is) return false;
-		elseif(!in_array($is[2], array(1,2,3))) return false;
+		else if(!in_array($is[2], array(1,2,3))) return false;
 		else return true;
 	}
     /*

@@ -13,7 +13,7 @@ $CONFIG = array(
     'mysql' => array(
         'host'      => 'localhost',
         'username'  => 'root',
-        'password'  => 'password',
+        'password'  => '223945',
         'dbname'    => 'xcloud_regedit'
     ),
 

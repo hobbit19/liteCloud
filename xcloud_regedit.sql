@@ -1,6 +1,5 @@
--- phpMyAdmin SQL Dump
+-- liteCloud SQL Dump
 -- version 3.4.11.1deb2+deb7u8
--- http://www.phpmyadmin.net
 --
 -- Host: localhost
 -- Generation Time: Jun 07, 2017 at 06:55 AM

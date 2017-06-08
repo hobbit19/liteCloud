@@ -22,6 +22,10 @@ class Cloud
 	*/
     public static $system;
     /*
+		Назначение переменной: Конфигурация системы
+	*/
+    private static $configuration = array();
+    /*
 		Назначение функции: Создание указателя бд
 		Входящие параметры: Массив данных для подключения
 	*/
@@ -42,13 +46,16 @@ class Cloud
     public static function handshake($config)
     {
         // Ставим заголовок с кодировкой проекта
-        if (!isset($_GET['appstyle'])) header('Content-Type: text/html; charset=utf-8');
+        if (!isset($_GET['appstyle']) && !isset($_GET['get']))
+            header('Content-Type: text/html; charset=utf-8');
         // Заполнение указателей пользователя, шаблонизатора, базы данны, системы и профиля
         self::mysqlconnect($config['mysql']);
         self::$profile  = self::account(((isset($_COOKIE['id'])) ? $_COOKIE['id'] : 0));
         self::$template = new tempengine($config['template']);
         self::$application = new application(self::$mysqli);
         self::$system   = new system($config['path']);
+        // Присвоение конфигураци
+        self::$configuration = $config;
     }
     /*
 		Назначение функции: Тип подключенного устройства
@@ -91,6 +98,14 @@ class Cloud
         }
         // Возвращаем ответ
         return $array;
+    }
+    /*
+		Назначение функции: Возвращает путь к рабочему каталогу
+		Входящие параметры: Нету
+	*/
+    public static function workzone()
+    {
+        return self::$configuration['path'];
     }
     /*
 		Назначение функции: Определение путей и выдачи контента

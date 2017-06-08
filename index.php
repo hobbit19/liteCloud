@@ -17,6 +17,9 @@ try
 	else if (isset($_GET['appstyle']) && Cloud::$profile['is_login'])
 	// Вывод таблицы стилей приложений
 	exit(include __DIR__ . "/resources/style.php");
+	// API для получение файлов
+	else if (isset($_GET['get']) && Cloud::$profile['is_login'])
+		exit(include __DIR__ . "/resources/filesource.php");
 	// Вывод интерфейса заданного контроллера
 	$interface = Cloud::__interface($CONFIG['controller']);
 	// Проверка переадресации

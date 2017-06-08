@@ -13,7 +13,7 @@ $CONFIG = array(
     'mysql' => array(
         'host'      => 'localhost',
         'username'  => 'root',
-        'password'  => 'password',
+        'password'  => '223945',
         'dbname'    => 'xcloud_regedit'
     ),
 
@@ -53,3 +53,8 @@ $CONFIG = array(
 define('APPLICATION_ID',    0);
 define('APPLICATION_DIR',   1);
 define('APPLICATION_ALIAS', 2);
+/*
+    Назначения: Параметры поиска каталога / файла
+*/
+define('ISDIR',   0);
+define('ISFILE',  1);

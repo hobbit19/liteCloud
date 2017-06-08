@@ -81,7 +81,7 @@ transform:rotate3d(1, 0, 0, 180deg);
 
 .menu {
 height:45px;
-position:absolute;
+position:fixed;
 top:0px;
 left:0px;
 right:0px;

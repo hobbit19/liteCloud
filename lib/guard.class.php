@@ -59,6 +59,13 @@ class Guard
 	*/
 	public static function is_image($path)
 	{
+        $typearray = explode('.', $path);
+        // Проверка типа
+        if ($typearray[count($typearray) - 1] != 'jpg' &&
+            $typearray[count($typearray) - 1] != 'png' &&
+            $typearray[count($typearray) - 1] != 'jpeg' &&
+            $typearray[count($typearray) - 1] != 'gif'
+        ) return false;
 		$is = @getimagesize($path); if(!$is) return false;
 		else if(!in_array($is[2], array(1,2,3))) return false;
 		else return true;
@@ -71,5 +78,15 @@ class Guard
 	{
         // Устарело, надо менять
 		return md5(strrev(sha1($data)."litecloud".sha1($data)));
+	}
+    /*
+		Назначение функции: Удаление лишних путей
+		Входящие параметры: Строка
+	*/
+    public static function slashes($string)
+	{
+		$nstr = str_replace( "../", 	"", 	$string);
+		$nstr = str_replace( "//", 		"", 	$nstr);
+		return  str_replace( "./", 		"", 	$nstr);
 	}
 }

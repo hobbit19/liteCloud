@@ -31,5 +31,9 @@ return array(
     'status' => 1, // Статус корректной работы приложения
     'html'   => $app['html'], // Содержимое приложения
     'title'  => $application['config']['name'], // Имя приложения
-    'menu' 	 => $menu // Измененное меню
+    'menu' 	 => $menu, // Измененное меню
+    'notice' => Cloud::$application->notice(
+        $app['notice']['title'],
+        $app['notice']['message']
+    ) // Окно уведомлений
 );

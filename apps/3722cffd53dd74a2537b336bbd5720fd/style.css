@@ -1,0 +1,62 @@
+#content_file {
+padding:1%;
+text-align:justify;
+}
+
+#block_file {
+width:13.56em;
+height:13.5em;
+text-align:center;
+display:inline-block;
+border-radius:7px;
+vertical-align:top;
+}
+
+#block_file:hover {
+background:rgba(123, 115, 115, 0.03);
+}
+
+#block_file img {
+width:70%;
+max-height:127px;
+object-fit:cover;
+}
+
+#block_file p {
+margin:0px;
+padding:0px;
+padding-top:4px;
+height:139px;
+}
+
+#block_file #title_file {
+font-size:1.3em;
+}
+
+#actionstable {
+width:100%;
+}
+
+#actionstable .left {
+width:205px;
+padding:8px;
+text-align:center;
+border-right:1px solid #eeeeee;
+}
+
+#actionstable .right {
+padding:8px;
+padding-right:0px;
+}
+
+#tableinwin {
+margin-top:15px;
+width:100%;
+font-size:17px;
+font-weight:300;
+}
+
+#tableinwin .left_text {
+width:376px;
+padding-bottom:10px;
+}

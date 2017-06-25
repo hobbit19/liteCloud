@@ -17,7 +17,7 @@ $dirs 	= include "{$_SERVER['DOCUMENT_ROOT']}/{$application['dir']}/dirs.php";
 $files 	= include "{$_SERVER['DOCUMENT_ROOT']}/{$application['dir']}/files.php";
 // Генерация шаблона
 return array(
-    'style' => $application['api']['template']->display('style.css'),
-    'html'  => "<div id=\"content_file\">{$dirs}{$files['content']}</div>",
-    'notice' => array('title' => $files['notice']['title'], 'message' => $files['notice']['message'])
+	'style' => $application['api']['template']->display('style.css'),
+	'html'  => "<div id=\"content_file\">{$dirs}{$files['content']}</div>",
+	'notice' => array('title' => $files['notice']['title'], 'message' => $files['notice']['message'])
 );

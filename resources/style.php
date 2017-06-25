@@ -7,5 +7,5 @@ $q = mysqli_query(Cloud::$mysqli, "SELECT `id` FROM `apps`");
 while($array = mysqli_fetch_assoc($q))
 // Вывод содержимого параметра style
 echo Cloud::$application->appoprion(
-    $array['id'], 'style', Cloud::$application->init($array['id'], APPLICATION_ID)
+	$array['id'], 'style', Cloud::$application->init($array['id'], APPLICATION_ID)
 );

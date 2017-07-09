@@ -1,19 +1,23 @@
-# Информация о liteCloud :cloud:
-###
+<p align="center"> <a href="https://github.com/liteCloudRVA" target="_blank"> <img src="https://avatars1.githubusercontent.com/u/30016782?v=3&s=200"> </img> </a> </p>
+
+# Welcome to liteCloud :cloud:
+
 ![liteCloud_info](https://github.com/rvasources/media/blob/master/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BE%D1%82%202017-06-07%2014-09-42.png)
 
-* Автор приложения: *[RVA](https://github.com/rvasources)*
-* Доступные языки: *Русский*.
-* Поддерживаемые типы устройств: *Desktop, Mobile, Tablet*.
-* Требования к серверу: *Linux, PHP 5+, MySQL, Apache2 / Nginx*.  
-* Канал в Telegram: *https://t.me/rva_simon*.  
+[liteCloud](https://github.com/liteCloudRVA/liteCloud) is a user management system for the server (home cloud). This application is suitable for everyone who has their own server and wants to structure their files on it, have easy access to their files from all devices, and write their own additional applications under liteCloud and use them.
 
-![liteCloud_files](https://github.com/rvasources/media/blob/master/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BE%D1%82%202017-06-07%2014-20-10.png)
+# Getting Started
 
-[liteCloud](https://github.com/rvasources/liteCloud) является системой пользовательского управления сервером ( домашнее облако ). Данное приложение подойдет всем, кто имеет собственный сервер и хочет структурировать свои файлы на нем, иметь удобный доступ к своим файлам со всех устройств, а также писать свои собственные дополнительные приложения под liteCloud и пользоваться ими.
+1. The minimum required PHP version 5, installed Apache2/nginx, MySQL.
+2. In the local domain folder, clone the liteCloud.
 
+        $ git clone https://github.com/liteCloudRVA/liteCloud
+
+3. Install the database `xcloud_regedit.sql`.
+4. Modify the ./resources/config.php file. Enter the data for the database into the `mysql` section, enter the path to the existing directory in the `path` section (within the directory the file manager will work).
+5. Go to your local domain, the data for authorization `test:qwerty321`
 # Стандартные приложения liteCloud
-###
+
 
 Изначально предустановлены 4 приложения ( системные )
 
@@ -64,11 +68,10 @@ Web API
 
 Остальные ( системные ошибки ) выводятся вместе с основным HTML-кодом, либо только сама ошибка. Каждая ошибка имеет свой уникальный код.
 
-# Установка
-###
+* Автор приложения: *[RVA](https://github.com/rvasources)*
+* Доступные языки: *Русский*.
+* Поддерживаемые типы устройств: *Desktop, Mobile, Tablet*.
+* Требования к серверу: *Linux, PHP 5+, MySQL, Apache2 / Nginx*.  
+* Канал в Telegram: *https://t.me/rva_simon*.  
 
-1) Установите на сервер `apache2/nginx`, `php5+`, `mysql`. Сконфигурируйте локальный домен.
-2) В папку домена поместите исходники liteCloud.
-3) Установите базу данных (`xcloud_regedit.sql`).
-4) Измените файл `./resources/config.php`. Впишите данные для бд в раздел `mysql`, в раздел `path` впишите путь к существующему каталогу (в рамках этого каталога будет работать файловый менеджер).
-5) Зайдите на ваш локальный домен, данные для авторизации `test:qwerty321`
+![liteCloud_files](https://github.com/rvasources/media/blob/master/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BE%D1%82%202017-06-07%2014-20-10.png)

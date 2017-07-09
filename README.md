@@ -25,7 +25,7 @@
 
 Initially 4 applications are preinstalled (system): 
 
-![liteCloud_menu](https://github.com/rvasources/media/blob/master/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BE%D1%82%202017-06-07%2010-35-14.png)
+![liteCloud_menu](https://raw.githubusercontent.com/eorgiose/screenshots/master/filesapp.png)
 
 1. Settings - All information about the system and basic system settings are there.
 2. Files - Browser files and directories, implemented the full functionality of the file manager.

@@ -2,8 +2,8 @@
 class Guard
 {
 	/*
-		Назначение функции: Перевод символов
-		Входящие параметры: Строка
+		Function assignment: Translation of symbols
+		Incoming parameters: String
 	*/
 	public static function escape($string)
 	{
@@ -27,8 +27,8 @@ class Guard
 		return $string;
 	}
 	/*
-		Назначение функции: Является ли параметр типом int
-		Входящие параметры: Переменная
+		Function assignment: Is a parameter of type int
+		Incoming parameters: Variable
 	*/
 	public static function isint($int)
 	{
@@ -36,16 +36,16 @@ class Guard
 		return is_int($int);
 	}
 	/*
-		Назначение функции: Является ли строка JSON объектом
-		Входящие параметры: Json строка
+		Function assignment: Is the JSON string object
+		Incoming parameters: Json string
 	*/
 	public static function is_json($string)
 	{
 		return ((is_string($string) && (is_object(json_decode($string)) || is_array(json_decode($string))))) ? true : false;
 	}
 	/*
-		Назначение функции: Удаление лишних спецсимволов
-		Входящие параметры: Строка
+		Function assignment: Removing unnecessary characters
+		Incoming parameters: String
 	*/
 	public function _strip($data)
 	{
@@ -54,13 +54,13 @@ class Guard
 		return str_replace($lit, $sp, $data);
 	}
 	/*
-		Назначение функции: Является ли файл изображением
-		Входящие параметры: Путь к файлу
+		Function assignment: Is the file a picture
+		Incoming options: File path
 	*/
 	public static function is_image($path)
 	{
 		$typearray = explode('.', $path);
-		// Проверка типа
+		// Type check
 		if ($typearray[count($typearray) - 1] != 'jpg' &&
 			$typearray[count($typearray) - 1] != 'png' &&
 			$typearray[count($typearray) - 1] != 'jpeg' &&
@@ -71,17 +71,18 @@ class Guard
 		else return true;
 	}
 	/*
-		Назначение функции: Генерация хэша пароля
-		Входящие параметры: Пароль
+		Function assignment: Generating a password hash
+		Incoming settings: Password
 	*/
 	public static function password($data)
 	{
-		// Устарело, надо менять
-		return md5(strrev(sha1($data)."litecloud".sha1($data)));
+		// Deprecated, must be changed
+		// // // LIKE (@eorgiose) // // // 
+		return md5(strrev(sha1($data)."litecloud".sha1($data))); 
 	}
 	/*
-		Назначение функции: Удаление лишних путей
-		Входящие параметры: Строка
+		Function assignment: Removing unnecessary paths
+		Incoming parameters: String
 	*/
 	public static function slashes($string)
 	{

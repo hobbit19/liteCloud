@@ -2,110 +2,121 @@
 class system
 {
 	/*
-		Назначение переменной: Путь к зоне видимости
+		Variable assignment: Path to the scope
 	*/
 	private static $_path = NULL;
 	/*
-		Назначение функции: Получение пути к зоне видимости
-		Входящие параметры: Путь
+		Function assignment: Obtaining the path to the visibility zone
+		Incoming parameters: Path
 	*/
 	public function __construct($fullpath)
 	{
-		// Запись системной переменной
+		// Write a system variable
 		self::$_path = $fullpath;
 	}
 	/*
-		Назначение функции: Создание массива каталогов и файлов
-		Входящие параметры: Путь к каталогу
+		Function assignment: Creating an array of directories and files
+		Incoming parameters: Path to the directory
 	*/
 	public function fromdir($path = '')
 	{
-		// Если параметр пустой, тогда выходим
+		// If the parameter is empty, then we exit
 		if(empty($path)) return array();
-		// Добавление слеша в конце и начале пути
+
+		// Adding a slash at the end and beginning of the path
 		$path .= ($path[strlen($path) - 1] == '/') ? '' : '/';
 		$path = ($path[0] == '/') ? $path : "/{$path}";
-		// Выход если каталога не существует
+
+		// Exit if the directory does not exist
 		if(!is_dir(self::$_path . $path)) return array();
-		// Определение переменных цикла
+
+		// Defining cycle variables
 		$data 	= scandir(self::$_path . $path);
-		$dirs 	= array(); $d = 0; // Переменные каталогов
-		$files 	= array(); $f = 0; // Переменные файлов
-		// Заполнение массива циклом
+		$dirs 	= array(); $d = 0; // // Directory variables
+		$files 	= array(); $f = 0; // File variables
+
+		// Filling an array with a cycle
 		for($i=0;$i<count($data);$i++)
-		// Условие на проверку каталога или файла
+		// The condition for checking the directory or file
 		if(is_dir(self::$_path . $path . $data[$i]) && $data[$i][0] != ".")
 		{
-			// Определение массива конкретно взятого каталога
+			// The definition of an array of a specific directory
 			$dirs[$d] = array(
-				'name' => $data[$i], // Имя каталога
-				'time' => date("d F Y", filemtime(self::$_path . $path . $data[$i])), // Дата создания каталога
-				'rules' => substr(sprintf('%o', fileperms(self::$_path . $path . $data[$i])), -4) // Права каталога
+				'name' => $data[$i], // Directory name
+				'time' => date("d F Y", filemtime(self::$_path . $path . $data[$i])), // Catalog creation date
+				'rules' => substr(sprintf('%o', fileperms(self::$_path . $path . $data[$i])), -4) // Directory rights
 			);
-			$d++; // Следующий id каталога
-		// Условие, является ли объект файлом
+			$d++; // The next directory id
+		// The condition whether the object is a file
 		}else if(!is_dir(self::$_path . $path . $data[$i]) && $data[$i][0] != ".")
 		{
-			// Получаем информацию о файле
+			// Get information about the file
 			$about = $this->aboutfile(self::$_path . $path . $data[$i]);
-			// Массив для определения типа файла
+
+			// Array to determine the type of file
 			$type = explode('.', $data[$i]);
-			// Определение массива конкретно взятого файла
+
+			// Definition of an array of a specific file
 			$files[$f] = array(
-				'name' => $data[$i], // Имя файла
-				'type' => $type[count($type) - 1], // Расширение файла
-				'size' => $about['size'], // Размер файла
-				'time' => $about['time'] // Дата создания файла
+				'name' => $data[$i], // File name
+				'type' => $type[count($type) - 1], // File extension
+				'size' => $about['size'], // File size
+				'time' => $about['time'] // File creation date
 			);
-			$f++; // Следующий id файла
+			$f++; // Next id of the file
 		}
-		// Возвращаем массив всех каталогов и файлов
+		// Return an array of all directories and files
 		return array('dirs' => $dirs, 'files' => $files);
 	}
 	/*
-		Назначение функции: Расчет веса файла в макс. единице
-		Входящие параметры: Путь к файлу/непереведенный вес, тип параметра
+		Purpose of the function: Calculate the weight of the file in max. Unit
+		Incoming parameters: File path / untranslated weight, parameter type
 	*/
 	public function aboutfile($path = '')
 	{
-		// Массив данных
+		// Data array
 		$array = array();
-		// Поверка на существование файла
+
+		// Check for the existence of a file
 		if(!file_exists(self::$_path . $path)) return array();
-		// Запись данных в массив
+
+		// Writing data to an array
 		$array['size'] = $this->sizefile(self::$_path . $path);
 		$array['time'] = date("d.m.Y", filemtime(self::$_path . $path));
 		$array['rules'] = substr(sprintf('%o', fileperms(self::$_path . $path)), -4);
-		// Возвращаем ответ
+		// Return the response
 		return $array;
 	}
 	/*
-		Назначение функции: Расчет веса файла в макс. единице
-		Входящие параметры: Путь к файлу/непереведенный вес, тип параметра
+		Purpose of the function: Calculate the weight of the file in the maximum unit
+		Incoming parameters: File path / untranslated weight, parameter type
 	*/
 	private function sizefile($file = '', $file_path = true)
 	{
-		// Если файла нет и стоит положение true
+		// If there is no file and the position is true
 		if($file_path && !file_exists($file)) return "0 Байт";
-		// Иначе определяем вес файла и записываем в переменную
+
+		// Otherwise, we determine the weight of the file and write it to a variable
 		else if($file_path && file_exists($file))
 			$filesize = filesize($file);
-		// Запись файла в переменную для вычисления веса
+
+		// Writing a file to a variable to calculate the weight
 		else $filesize = $file;
-		// Определение битности
+		
+		// Determination of bit depth
 		if($filesize > 1024)
 		{
 			$filesize = $filesize / 1024;
-			// Сравнение пренадлежности веса
+			// Weight сomparison
 			if($filesize > 1024) if(($filesize/1024) > 1024)
-			// Возвращаем вес в гигабайтах
+			// We return weight in gigabytes
 			return round((($filesize/1024)/1024), 1)." Гб";
-			// Возвращаем ответ в мегабайтах
+			// Return the response in megabytes
 			else return round(($filesize/1024), 1)." Mб";
-			// Возвращаем ответ в килобайтах
+			// Return the response in kilobytes
 			else return round($filesize, 1)." Кб";
 		}else
-		// Возвращаем ответ в байтах
+		// Return the response in bytes
 		return round($filesize, 1)." Байт";
 	}
 }

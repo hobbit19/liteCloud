@@ -1,22 +1,26 @@
 <?php
-// Переменная шаблона
+// Template variable
 $content = NULL;
-// Генерируем шаблон каталогов
+
+// Generating a directories template
 for($i=0;$i<count($objects['dirs']);$i++)
 {
-	// Условие следующего шага
+	// The condition of the next step
 	$step = ($directory[strlen($directory) - 1] == '/') ? $directory : "{$directory}/";
-	// Создаем ссылку для перехода к новому каталогу
+
+	// Create a link to go to the new directory
 	$url = "{$application['api']['urlapp']}&dir={$step}{$objects['dirs'][$i]['name']}";
-	// Создаем урезанное имя каталога
+
+	// Create an abbreviated directory name
 	$name = (strlen($objects['dirs'][$i]['name']) > 16) ?
 		mb_substr($objects['dirs'][$i]['name'], 0, 16, 'UTF-8') . ".." : $objects['dirs'][$i]['name'];
-	// Применяем шаблон
+		
+	// Applying a template
 	$content .= "
 	<a href=\"{$url}\" id=\"block_file\">
 		<p><img src=\"/{$application['dir']}/images/dir.png\"></p>
 		<div id=\"title_file\">{$name}</div>
 	</a>";
 }
-// Возвращаем шаблона
+// Returning the template
 return $content;

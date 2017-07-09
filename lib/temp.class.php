@@ -2,44 +2,44 @@
 class tempengine
 {
 	/*
-		Назначение переменной: Путь к шаблонам
+		Variable assignment: Path to templates
 	*/
 	private $_path;
 	/*
-		Назначение переменной: Путь выбранного шаблона
+		Variable assignment: The path of the selected template
 	*/
 	private $_template;
 	/*
-		Назначение переменной: Массив данных
+		Variable Assignment: Data array
 	*/
 	private $_var = array();
 	/*
-		Назначение функции: Определения пути к шаблонам
-		Входящие параметры: Путь к каталогу
+		Function assignment: Defining the path to templates
+		Incoming parameters: Path to the directory
 	*/
 	public function __construct($path = '')
 	{
 		$this->_path = $_SERVER['DOCUMENT_ROOT'] . $path;
 	}
 	/*
-		Назначение функции: Присваивает значение переменной
-		Входящие параметры: Имя переменной, значение
+		Function assignment: Assigns the value of a variable
+		Incoming parameters: Variable name, value
 	*/
 	public function set($name, $value)
 	{
 		$this->_var[$name] = $value;
 	}
 	/*
-		Назначение функции: Присваивает/дополняет значение переменной массива
-		Входящие параметры: Имя переменной, значение
+		Function assignment: Assign / append the value of the array variable
+		Incoming parameters: Variable name, value
 	*/
 	public function set_cycle($name, $value)
 	{
 		$this->_var[$name] .= $value;
 	}
 	/*
-		Назначение функции: Получает значение переменной
-		Входящие параметры: Имя переменной
+		Function assignment: Gets the value of a variable
+		Incoming parameters: Variable name
 	*/
 	public function __get($name)
 	{
@@ -47,13 +47,13 @@ class tempengine
 		return '';
 	}
 	/*
-		Назначение функции: Собирает шаблон и выводит его на экран
-		Входящие параметры: Имя шаблона, тип ответа
+		Function assignment: Gathers a template and displays it on the screen
+		Incoming parameters: Template name, response type
 	*/
 	public function display($template)
 	{
 		$this->_template = $this->_path . $template;
-		if(!file_exists($this->_template)) die('Шаблона ' . $this->_template . ' не существует!');
+		if(!file_exists($this->_template)) die('The template ' . $this->_template . ' does not exist!');
 		ob_start(); include($this->_template);
 		return ob_get_clean();
 	}

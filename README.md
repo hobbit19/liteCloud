@@ -17,12 +17,13 @@
 
 # Information, Community
 
-* Chief Developer [RVA](https://github.com/rvasources), dev and translation of the application [eorgiose](https://github.com/eorgiose).
+* Chief Developer [RVA](https://github.com/rvasources). Dev and translation of the application [eorgiose](https://github.com/eorgiose). Installer dev [noirhat](https://github.com/noirhat).
 * Available languages: English, Russian.
 * Supported device types: Desktop, Mobile, Tablet.
 
 * [API](https://github.com/liteCloudRVA/liteCloud/wiki/API).
 * [Realese Note](https://github.com/liteCloudRVA/liteCloud/wiki/Release-Note).
+* [Telegram channel](https://t.me/rva_simon).
 
 # Standard Applications liteCloud
 

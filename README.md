@@ -12,7 +12,7 @@
         $ git clone https://github.com/liteCloudRVA/liteCloud
 
 3. Install the database `xcloud_regedit.sql`.
-4. Modify the ./resources/config.php file. Enter the data for the database into the `mysql` section, enter the path to the existing directory in the `path` section (within the directory the file manager will work).
+4. Modify the `./resources/config.php` file. Enter the data for the database into the `mysql` section, enter the path to the existing directory in the `path` section (within the directory the file manager will work).
 5. Go to your local domain, the data for authorization `test:qwerty321`.
 
 # Information, Community

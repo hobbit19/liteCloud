@@ -1,4 +1,4 @@
-<h1>В разработке :/</h1>
+<h1>In developing:/</h1>
 <form method="POST">
     <input type="text" name="username">
     <input type="password" name="password">

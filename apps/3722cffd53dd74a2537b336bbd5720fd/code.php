@@ -1,21 +1,28 @@
 <?php
-// Получение входящих запросов
+// Getting incoming requests
 $window = Cloud::$application->winquery();
 $appqr = Cloud::$application->appquery();
-// Скрипт функций
+
+// Script functions
 include "{$_SERVER['DOCUMENT_ROOT']}/{$application['dir']}/functions.php";
-// Переменная текущей директории
+
+// Variable current directory
 $directory = "/";
-// Если параметр каталога существует и не пустой
+
+// If the directory parameter exists and is not empty
 if(isset($_POST['dir']) && !empty($_POST['dir']))
-// Применение пути к каталогу и если такого пути нет - выводим ошибку
+
+// Applying path to the directory. If there is no such way, then we derive an error
 if(!is_dir($directory = urldecode($_POST['dir']))) Cloud::ajaxerror("Joooooooo");
-// Начинаем сканирование текущего каталога
+
+// Start scanning the current directory
 $objects = Cloud::$system->fromdir($directory);
-// Получаем контент с вспомогательных скриптов
+
+// Get content from auxiliary scripts
 $dirs 	= include "{$_SERVER['DOCUMENT_ROOT']}/{$application['dir']}/dirs.php";
 $files 	= include "{$_SERVER['DOCUMENT_ROOT']}/{$application['dir']}/files.php";
-// Генерация шаблона
+
+// Generating a template
 return array(
 	'style' => $application['api']['template']->display('style.css'),
 	'html'  => "<div id=\"content_file\">{$dirs}{$files['content']}</div>",

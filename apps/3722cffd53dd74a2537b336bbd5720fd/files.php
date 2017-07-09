@@ -1,27 +1,33 @@
 <?php
-// Массив уведомлений
+// Notification Array
 $notice = array();
-// Условие для _GET параметра file
+
+// The condition for the _GET parameter file
 if(isset($_POST['file']) && !empty($_POST['file']))
 	$notice = filewindow($_POST['dir'], $_POST['file'], $application['api']['urlapp'], $application['dir']);
-// Переменная шаблона
+
+// Template variable
 $content = NULL;
-// Генерируем шаблон файлов
+
+// Generating files template
 for($i=0;$i<count($objects['files']);$i++)
 {
-	// Условие следующего шага
+	// The condition of the next step
 	$step = ($directory[strlen($directory) - 1] == '/') ? $directory : "{$directory}/";
-	// Определение массива для файла
+
+	// Defining an array for a file
 	$file = fileinfo($step, $objects['files'][$i]['name'], $application['api']['urlapp'], $application['dir']);
-	// Создаем урезанное имя файла
+
+	// Create an abbreviated file name
 	$name = (strlen($objects['files'][$i]['name']) > 13) ?
 		mb_substr($objects['files'][$i]['name'], 0, 13, 'UTF-8') . ".." : $objects['files'][$i]['name'];
-	// Применяем шаблон
+		
+	// Apply template
 	$content .= "
 	<a {$file['html']} href=\"{$file['href']}\" id=\"block_file\">
 		<p>{$file['image']}</p>
 		<div id=\"title_file\">{$name}</div>
 	</a>";
 }
-// Возвращаем шаблона
+// Returning the template
 return array('content' => $content, 'notice' => $notice);

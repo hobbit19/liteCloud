@@ -1,22 +1,28 @@
 <?php
-// Проверка получения входящего параметра
+// Checking the receipt of the incoming parameter
 if (!isset($_GET['get']) || empty($_GET['get'])) return NULL;
-// Получение реального пути файла
+
+// Getting the real path of a file
 $file = Guard::slashes(urldecode($_GET['get']));
-// Коррекция выходного пути
+
+// Correction of the output path
 $file = ($file[0] == '/') ? $CONFIG['path'] . $file : "{$CONFIG['path']}/{$file}";
-// Проверка на существование файла
+
+// Check for the existence of a file
 if(!file_exists($file)) return NULL;
-// Очистка кэша
+
+// Clearing the cache
 if(ob_get_level()) ob_end_clean();
-// Выдача заголовков
+
+// Issuing headers
 header('Content-Description: File Transfer');
-header('Content-Type: application/octet-stream'); // Стримовая передача
-header('Content-Disposition: attachment; filename=' . basename($file)); // Выходное имя
-header('Content-Transfer-Encoding: binary'); // Тип кодирования
+header('Content-Type: application/octet-stream'); // Stream transmission
+header('Content-Disposition: attachment; filename=' . basename($file)); // Output name
+header('Content-Transfer-Encoding: binary'); // Encoding type
 header('Expires: 0');
 header('Cache-Control: must-revalidate');
 header('Pragma: public');
-header('Content-Length: ' . filesize($file)); // Длина содержимого
-// Отдача файла
+header('Content-Length: ' . filesize($file)); // Content length
+
+// File retrieval
 readfile($file);

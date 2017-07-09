@@ -1,10 +1,8 @@
 <p align="center"> <a href="https://github.com/liteCloudRVA" target="_blank"> <img src="https://avatars1.githubusercontent.com/u/30016782?v=3&s=200"> </img> </a> </p>
 
-# Welcome to liteCloud :cloud:
-
-[liteCloud](https://github.com/liteCloudRVA/liteCloud) is a user management system for the server (home cloud). This application is suitable for everyone who has their own server and wants to structure their files on it, have easy access to their files from all devices, and write their own additional applications under liteCloud and use them.
-
 ![liteCloud_info](https://raw.githubusercontent.com/eorgiose/screenshots/master/HomeCloud.png)
+
+[liteCloud](https://github.com/liteCloudRVA/liteCloud) :cloud: is a user management system for the server (home cloud). This application is suitable for everyone who has their own server and wants to structure their files on it, have easy access to their files from all devices, and write their own additional applications under liteCloud and use them.
 
 # Getting Started
 

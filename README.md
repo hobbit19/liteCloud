@@ -1,10 +1,8 @@
 <p align="center"> <a href="https://github.com/liteCloudRVA" target="_blank"> <img src="https://avatars1.githubusercontent.com/u/30016782?v=3&s=200"> </img> </a> </p>
 
-# Welcome to liteCloud :cloud:
+![liteCloud_info](https://raw.githubusercontent.com/eorgiose/screenshots/master/HomeCloud.png)
 
-![liteCloud_info](https://github.com/rvasources/media/blob/master/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BE%D1%82%202017-06-07%2014-09-42.png)
-
-[liteCloud](https://github.com/liteCloudRVA/liteCloud) is a user management system for the server (home cloud). This application is suitable for everyone who has their own server and wants to structure their files on it, have easy access to their files from all devices, and write their own additional applications under liteCloud and use them.
+[liteCloud](https://github.com/liteCloudRVA/liteCloud) :cloud: is a user management system for the server (home cloud). This application is suitable for everyone who has their own server and wants to structure their files on it, have easy access to their files from all devices, and write their own additional applications under liteCloud and use them.
 
 # Getting Started
 
@@ -27,7 +25,7 @@
 
 Initially 4 applications are preinstalled (system): 
 
-![liteCloud_menu](https://github.com/rvasources/media/blob/master/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BE%D1%82%202017-06-07%2010-35-14.png)
+![liteCloud_menu](https://raw.githubusercontent.com/eorgiose/screenshots/master/filesapp.png)
 
 1. Settings - All information about the system and basic system settings are there.
 2. Files - Browser files and directories, implemented the full functionality of the file manager.
@@ -45,4 +43,4 @@ There are 3 types of applications in liteCloud:
 3. Hidden - These applications work in the background. The application is managed in the `Notifications` tab.
 4. Window - The operating principle is like a hidden application, but the application opens in the window. 
 
-![liteCloud_files](https://github.com/rvasources/media/blob/master/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%20%D0%BE%D1%82%202017-06-07%2014-20-10.png)
+![liteCloud_files](https://raw.githubusercontent.com/eorgiose/screenshots/master/filesCloud.png)

@@ -18,9 +18,10 @@
 # Information, Community
 
 \\\\\\\\\\\ API, application errors, links. \\\\\\\\\\\
-* Chief Developer **[RVA](https://github.com/rvasources)**, dev and translation of the application **[eorgiose](https://github.com/eorgiose)**.
+* Chief Developer [RVA](https://github.com/rvasources), dev and translation of the application [eorgiose](https://github.com/eorgiose).
 * Available languages: English, Russian.
 * Supported device types: Desktop, Mobile, Tablet.
+
 # Standard Applications liteCloud
 
 Initially 4 applications are preinstalled (system): 
@@ -35,7 +36,6 @@ Initially 4 applications are preinstalled (system):
 From the list of applications, the APIs for editing are: Applications, Notifications. 
 
 # Types of applications in liteCloud
-###
 
 There are 3 types of applications in liteCloud:
 1. System - This type of application is displayed in the main menu. They are not edited and are not replaced.
@@ -44,3 +44,6 @@ There are 3 types of applications in liteCloud:
 4. Window - The operating principle is like a hidden application, but the application opens in the window. 
 
 ![liteCloud_files](https://raw.githubusercontent.com/eorgiose/screenshots/master/filesCloud.png)
+
+# License 
+liteCloud is released under the  [GPL-3.0](https://opensource.org/licenses/GPL-3.0).

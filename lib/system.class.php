@@ -2,121 +2,132 @@
 class system
 {
 	/*
-		Variable assignment: Path to the scope
+		Назначение переменной: Путь к зоне видимости
 	*/
 	private static $_path = NULL;
 	/*
-		Function assignment: Obtaining the path to the visibility zone
-		Incoming parameters: Path
+		Назначение переменной: Конфигурация
 	*/
-	public function __construct($fullpath)
+	private static $configuration = array();
+	/*
+		Назначение функции: Получение пути к зоне видимости
+		Входящие параметры: Путь
+	*/
+	public function __construct($fullpath = '', $config = array())
 	{
-		// Write a system variable
+		// Запись системных переменных
 		self::$_path = $fullpath;
+		self::$configuration = $config;
 	}
 	/*
-		Function assignment: Creating an array of directories and files
-		Incoming parameters: Path to the directory
+		Назначение функции: Создание массива каталогов и файлов
+		Входящие параметры: Путь к каталогу
 	*/
 	public function fromdir($path = '')
 	{
-		// If the parameter is empty, then we exit
+		// Если параметр пустой, тогда выходим
 		if(empty($path)) return array();
-
-		// Adding a slash at the end and beginning of the path
+		// Добавление слеша в конце и начале пути
 		$path .= ($path[strlen($path) - 1] == '/') ? '' : '/';
 		$path = ($path[0] == '/') ? $path : "/{$path}";
-
-		// Exit if the directory does not exist
+		// Выход если каталога не существует
 		if(!is_dir(self::$_path . $path)) return array();
-
-		// Defining cycle variables
+		// Определение переменных цикла
 		$data 	= scandir(self::$_path . $path);
-		$dirs 	= array(); $d = 0; // // Directory variables
-		$files 	= array(); $f = 0; // File variables
-
-		// Filling an array with a cycle
+		$dirs 	= array(); $d = 0; // Переменные каталогов
+		$files 	= array(); $f = 0; // Переменные файлов
+		// Заполнение массива циклом
 		for($i=0;$i<count($data);$i++)
-		// The condition for checking the directory or file
+		// Условие на проверку каталога или файла
 		if(is_dir(self::$_path . $path . $data[$i]) && $data[$i][0] != ".")
 		{
-			// The definition of an array of a specific directory
+			// Определение массива конкретно взятого каталога
 			$dirs[$d] = array(
-				'name' => $data[$i], // Directory name
-				'time' => date("d F Y", filemtime(self::$_path . $path . $data[$i])), // Catalog creation date
-				'rules' => substr(sprintf('%o', fileperms(self::$_path . $path . $data[$i])), -4) // Directory rights
+				'name' => $data[$i], // Имя каталога
+				'time' => date("d F Y", filemtime(self::$_path . $path . $data[$i])), // Дата создания каталога
+				'rules' => substr(sprintf('%o', fileperms(self::$_path . $path . $data[$i])), -4) // Права каталога
 			);
-			$d++; // The next directory id
-		// The condition whether the object is a file
+			$d++; // Следующий id каталога
+		// Условие, является ли объект файлом
 		}else if(!is_dir(self::$_path . $path . $data[$i]) && $data[$i][0] != ".")
 		{
-			// Get information about the file
+			// Получаем информацию о файле
 			$about = $this->aboutfile(self::$_path . $path . $data[$i]);
-
-			// Array to determine the type of file
+			// Массив для определения типа файла
 			$type = explode('.', $data[$i]);
-
-			// Definition of an array of a specific file
+			// Определение массива конкретно взятого файла
 			$files[$f] = array(
-				'name' => $data[$i], // File name
-				'type' => $type[count($type) - 1], // File extension
-				'size' => $about['size'], // File size
-				'time' => $about['time'] // File creation date
+				'name' => $data[$i], // Имя файла
+				'type' => $type[count($type) - 1], // Расширение файла
+				'size' => $about['size'], // Размер файла
+				'time' => $about['time'] // Дата создания файла
 			);
-			$f++; // Next id of the file
+			$f++; // Следующий id файла
 		}
-		// Return an array of all directories and files
+		// Возвращаем массив всех каталогов и файлов
 		return array('dirs' => $dirs, 'files' => $files);
 	}
 	/*
-		Purpose of the function: Calculate the weight of the file in max. Unit
-		Incoming parameters: File path / untranslated weight, parameter type
+		Назначение функции: Расчет веса файла в макс. единице
+		Входящие параметры: Путь к файлу/непереведенный вес, тип параметра
 	*/
 	public function aboutfile($path = '')
 	{
-		// Data array
+		// Массив данных
 		$array = array();
-
-		// Check for the existence of a file
+		// Поверка на существование файла
 		if(!file_exists(self::$_path . $path)) return array();
-
-		// Writing data to an array
+		// Запись данных в массив
 		$array['size'] = $this->sizefile(self::$_path . $path);
 		$array['time'] = date("d.m.Y", filemtime(self::$_path . $path));
 		$array['rules'] = substr(sprintf('%o', fileperms(self::$_path . $path)), -4);
-		// Return the response
+		// Возвращаем ответ
 		return $array;
 	}
 	/*
-		Purpose of the function: Calculate the weight of the file in the maximum unit
-		Incoming parameters: File path / untranslated weight, parameter type
+		Назначение функции: Расчет свободного места на сервере
+		Входящие параметры: Нет
+	*/
+	public function freespace()
+	{
+		// Узнаем свободное и общее место
+		$free = disk_free_space("/");
+		$total = disk_total_space("/");
+		// Возвращаем массив
+		return array(
+			"percent"		=> ($total - $free) * 100 / $total,
+			"busyspace"		=> $this->sizefile($total - $free, false),
+			"freespace"		=> $this->sizefile($free, false),
+			"totalspace"	=> $this->sizefile($total, false)
+		);
+	}
+	/*
+		Назначение функции: Расчет веса файла в макс. единице
+		Входящие параметры: Путь к файлу/непереведенный вес, тип параметра
 	*/
 	private function sizefile($file = '', $file_path = true)
 	{
-		// If there is no file and the position is true
-		if($file_path && !file_exists($file)) return "0 Байт";
-
-		// Otherwise, we determine the weight of the file and write it to a variable
+		// Если файла нет и стоит положение true Байт
+		if($file_path && !file_exists($file)) return "0 Byte";
+		// Иначе определяем вес файла и записываем в переменную
 		else if($file_path && file_exists($file))
 			$filesize = filesize($file);
-
-		// Writing a file to a variable to calculate the weight
+		// Запись файла в переменную для вычисления веса
 		else $filesize = $file;
-		
-		// Determination of bit depth
+		// Определение битности
 		if($filesize > 1024)
 		{
 			$filesize = $filesize / 1024;
-			// Weight сomparison
+			// Сравнение пренадлежности веса
 			if($filesize > 1024) if(($filesize/1024) > 1024)
-			// We return weight in gigabytes
-			return round((($filesize/1024)/1024), 1)." Гб";
-			// Return the response in megabytes
-			else return round(($filesize/1024), 1)." Mб";
-			// Return the response in kilobytes
-			else return round($filesize, 1)." Кб";
+			// Возвращаем вес в гигабайтах
+			return round((($filesize/1024)/1024), 1) . "Gb";
+			// Возвращаем ответ в мегабайтах
+			else return round(($filesize/1024), 1) . "Mb";
+			// Возвращаем ответ в килобайтах
+			else return round($filesize, 1) . "Kb";
 		}else
-		// Return the response in bytes
-		return round($filesize, 1)." Байт";
+		// Возвращаем ответ в байтах
+		return round($filesize, 1)." Byte";
 	}
 }

@@ -2,44 +2,44 @@
 class tempengine
 {
 	/*
-		Variable assignment: Path to templates
+		Назначение переменной: Путь к шаблонам
 	*/
 	private $_path;
 	/*
-		Variable assignment: The path of the selected template
+		Назначение переменной: Путь выбранного шаблона
 	*/
 	private $_template;
 	/*
-		Variable Assignment: Data array
+		Назначение переменной: Массив данных
 	*/
 	private $_var = array();
 	/*
-		Function assignment: Defining the path to templates
-		Incoming parameters: Path to the directory
+		Назначение функции: Определения пути к шаблонам
+		Входящие параметры: Путь к каталогу
 	*/
 	public function __construct($path = '')
 	{
 		$this->_path = $_SERVER['DOCUMENT_ROOT'] . $path;
 	}
 	/*
-		Function assignment: Assigns the value of a variable
-		Incoming parameters: Variable name, value
+		Назначение функции: Присваивает значение переменной
+		Входящие параметры: Имя переменной, значение
 	*/
 	public function set($name, $value)
 	{
 		$this->_var[$name] = $value;
 	}
 	/*
-		Function assignment: Assign / append the value of the array variable
-		Incoming parameters: Variable name, value
+		Назначение функции: Присваивает/дополняет значение переменной массива
+		Входящие параметры: Имя переменной, значение
 	*/
 	public function set_cycle($name, $value)
 	{
 		$this->_var[$name] .= $value;
 	}
 	/*
-		Function assignment: Gets the value of a variable
-		Incoming parameters: Variable name
+		Назначение функции: Получает значение переменной
+		Входящие параметры: Имя переменной
 	*/
 	public function __get($name)
 	{
@@ -47,13 +47,13 @@ class tempengine
 		return '';
 	}
 	/*
-		Function assignment: Gathers a template and displays it on the screen
-		Incoming parameters: Template name, response type
+		Назначение функции: Собирает шаблон и выводит его на экран
+		Входящие параметры: Имя шаблона, тип ответа
 	*/
 	public function display($template)
 	{
 		$this->_template = $this->_path . $template;
-		if(!file_exists($this->_template)) die('The template ' . $this->_template . ' does not exist!');
+		if(!file_exists($this->_template)) die('Шаблона ' . $this->_template . ' не существует!');
 		ob_start(); include($this->_template);
 		return ob_get_clean();
 	}

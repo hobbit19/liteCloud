@@ -1,0 +1,151 @@
+.headsettings {
+background:#f6f6f6;
+height:240px;
+border-bottom:1px solid #e6e6e6;
+}
+
+.contentsettings {
+width:1000px;
+margin:0px auto;
+}
+
+.headsettings #avatarst {
+width:150px;
+height:150px;
+border-radius:100px;
+background:#fff;
+border:1px solid #e6e6e6;
+border-bottom:2px solid #e6e6e6;
+}
+
+.headsettings #name {
+font-size:29px;
+border-right:1px solid #e6e6e6;
+display:inline-block;
+padding-right:20px;
+height:28px;
+font-weight:300;
+color:#969696;
+}
+
+.headsettings #progress {
+border-radius:4px;
+border:1px solid #e6e6e6;
+height:28px;
+background:#fff;
+}
+
+.headsettings #progress #pin {
+background:rgba(255, 162, 0, .2);
+height:26px;
+border-radius:4px;
+border-right:1px solid #e6e6e6;
+}
+
+.headsettings #progress #proc {
+position:absolute;
+color:#929292;
+width:806px;
+text-align:center;
+padding-top:4px;
+}
+
+.headsettings .topsetting {
+padding-bottom:20px;
+}
+
+.headsettings #edtinfo {
+color:#0071eb;
+font-size:17px;
+padding-left:18px;
+margin-top:-14px;
+}
+
+.contentsettings .blockname {
+padding-top:30px;
+font-size:29px;
+height:28px;
+font-weight:300;
+color:#969696;
+}
+
+.contentsettings .settingblock {
+width:236px;
+padding:20px;
+display:inline-block;
+margin:5px;
+color:#999;
+padding-bottom:10px;
+font-size:18px;
+
+padding-left:45px;
+}
+
+.contentsettings .settingblock:hover {
+color:#0071eb;
+}
+
+.users_ico {
+background: url('<?=$this->dir?>/images/users.png') no-repeat;
+background-position:1px 16px;
+}
+
+.name_ico {
+background: url('<?=$this->dir?>/images/user.png') no-repeat;
+background-position:1px 16px;
+}
+
+.acc_ico {
+background: url('<?=$this->dir?>/images/acc.png') no-repeat;
+background-position:1px 16px;
+}
+
+.zone_ico {
+background: url('<?=$this->dir?>/images/workzone.png') no-repeat;
+background-position:1px 16px;
+}
+
+.rule_ico {
+background: url('<?=$this->dir?>/images/edit.png') no-repeat;
+background-position:1px 16px;
+}
+
+.notice_ico {
+background: url('<?=$this->dir?>/images/notepad.png') no-repeat;
+background-position:1px 16px;
+}
+
+.password_ico {
+background: url('<?=$this->dir?>/images/key.png') no-repeat;
+background-position:1px 16px;
+}
+
+.app_ico {
+background: url('<?=$this->dir?>/images/app.png') no-repeat;
+background-position:1px 16px;
+}
+
+.trash_ico {
+background: url('<?=$this->dir?>/images/garbage.png') no-repeat;
+background-position:1px 16px;
+}
+
+.update_ico {
+background: url('<?=$this->dir?>/images/rotate.png') no-repeat;
+background-position:1px 16px;
+}
+
+.language_ico {
+background: url('<?=$this->dir?>/images/language.png') no-repeat;
+background-position:1px 16px;
+}
+
+.settingscontainer {
+padding-bottom:75px;
+border-bottom:1px solid #e6e6e6;
+}
+
+.settingsfooter {
+padding-top:45px;
+text-align:center;
+}

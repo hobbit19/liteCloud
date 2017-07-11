@@ -1,0 +1,31 @@
+{
+	"date" :
+	{
+		"ru" : "Дата изменения",
+		"en" : "Date of change"
+	},
+
+	"size" :
+	{
+		"ru" : "Вес файла",
+		"en" : "File size"
+	},
+
+	"rule" :
+	{
+		"ru" : "Права файла",
+		"en" : "File rules"
+	},
+
+	"rnm" :
+	{
+		"ru" : "Переименовать",
+		"en" : "Rename"
+	},
+
+	"name" :
+	{
+		"ru" : "Имя файла",
+		"en" : "File name"
+	}
+}

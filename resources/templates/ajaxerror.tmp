@@ -2,6 +2,6 @@
     <h1><?=$this->title?></h1>
     <div id="main"><?=$this->message?></div>
     <div id="buttons">
-        <span href="ok" onclick="load_close()">Apply</span>
+        <span href="ok" onclick="load_close()"><?=$this->button?></span>
     </div>
 </div>

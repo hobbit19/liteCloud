@@ -32,7 +32,7 @@ border:none;
 height:1px;
 }
 
-a, input, input:focus {
+a, input, input:focus, select {
 outline:none;
 }
 
@@ -70,7 +70,7 @@ font-size:12px;
 border-spacing:0px;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], select {
 width:355px;
 background:rgb(255, 255, 255);
 border:2px solid rgb(238, 238, 238);
@@ -79,7 +79,7 @@ color:rgb(146, 142, 142);
 border-radius:4px;
 }
 
-input[type="text"]:focus, input[type="password"]:focus {
+input[type="text"]:focus, input[type="password"]:focus, select:focus {
 background:rgb(251, 251, 251);
 }
 

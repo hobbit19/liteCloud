@@ -1,0 +1,37 @@
+<div class="headsettings">
+	<div class="contentsettings">
+		<table style="padding-top:35px;">
+			<tr>
+				<td style="width:190px;">
+					<img id="avatarst" src="<?=$this->avatar?>">
+				</td>
+				<td>
+					<div class="topsetting">
+						<div id="name"><?=$this->nameuser?></div>
+						<a id="edtinfo" href=""><?=$this->info?></a>
+					</div>
+					<div id="progress">
+						<div id="proc"><?=$this->free?> <?=$this->of?> <?=$this->total?> <?=$this->aft?> <?=$this->busy?></div>
+						<div id="pin" style="width:<?=$this->percent?>%;"></div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div >
+	<div class="contentsettings settingscontainer" style="margin-top:45px;">
+		<a href="<?=$this->urlapp?>&function=avatar" class="settingblock acc_ico"><?=$this->ava?></a>
+		<!--<a href="" class="settingblock name_ico"><?=$this->profile?></a>-->
+		<a href="" class="settingblock users_ico"><?=$this->user?></a>
+		<a href="" class="settingblock zone_ico"><?=$this->zone?></a>
+		<a href="" class="settingblock rule_ico"><?=$this->rules?></a>
+		<a href="" class="settingblock notice_ico"><?=$this->notice?></a>
+		<a href="" class="settingblock password_ico"><?=$this->pass?></a>
+		<a href="" class="settingblock app_ico"><?=$this->apps?></a>
+		<a href="" class="settingblock trash_ico"><?=$this->clear?></a>
+		<a href="<?=$this->urlapp?>&function=language" class="settingblock language_ico"><?=$this->lang?></a>
+		<a href="" class="settingblock update_ico"><?=$this->update?></a>
+	</div>
+	<div class="settingsfooter"><?=$this->updt?>: x2l.v2.2</div>
+</div>

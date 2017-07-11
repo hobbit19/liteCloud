@@ -1,14 +1,11 @@
 <?php
-// Create a CSS Header
+// Создаем заголовок CSS
 header("Content-Type: text/css; charset=utf-8");
-
-// Request to display all id installed applications
+// Запрос на вывод всех id установленных приложений
 $q = mysqli_query(Cloud::$mysqli, "SELECT `id` FROM `apps`");
-
-// Output cycle id of applications
+// Цикл вывода id приложений
 while($array = mysqli_fetch_assoc($q))
-	
-// Outputting the contents of the style parameter
+// Вывод содержимого параметра style
 echo Cloud::$application->appoprion(
 	$array['id'], 'style', Cloud::$application->init($array['id'], APPLICATION_ID)
 );

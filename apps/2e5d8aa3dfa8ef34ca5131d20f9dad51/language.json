@@ -1,0 +1,106 @@
+{
+	"editname" : 
+	{
+		"ru" : "Изменить персональную информацию",
+		"en" : "Edit personal information"
+	},
+
+	"links" :
+	{
+		"avatar" :
+		{
+			"ru" : "Аватарка",
+			"en" : "Avatar"
+		},
+
+		"users" :
+		{
+			"ru" : "Пользователи",
+			"en" : "Users"
+		},
+
+		"zone" :
+		{
+			"ru" : "Рабочая зона",
+			"en" : "Work zone"
+		},
+
+		"rules" :
+		{
+			"ru" : "Права",
+			"en" : "Rules" 
+		},
+
+		"notice" : 
+		{
+			"ru" : "Уведомления",
+			"en" : "Notifications"
+		},
+
+		"pass" :
+		{
+			"ru" : "Пароль",
+			"en" : "Password"
+		},
+
+		"apps" :
+		{
+			"ru" : "Приложения",
+			"en" : "Applications"
+		},
+
+		"clear" :
+		{
+			"ru" : "Очистить",
+			"en" : "Clear"
+		},
+
+		"lang" :
+		{
+			"ru" : "Язык",
+			"en" : "Language"
+		},
+
+		"update" :
+		{
+			"ru" : "Обновления",
+			"en" : "Updates"
+		}
+	},
+
+	"updatename" : 
+	{
+		"ru" : "Версия текущего обновления",
+		"en" : "Current update version"
+	},
+
+	"line" :
+	{
+		"of" :
+		{
+			"ru" : "из",
+			"en" : "of"
+		},
+
+		"aft" :
+		{
+			"ru" : "доступно, занято",
+			"en" : "available, busy"
+		}
+	},
+
+	"info" :
+	{
+		"language" :
+		{
+			"ru" : "После смены языка, перезагрузите страницу облака. Данная надстройка применяется только к вашему профилю, остальные пользователи будут видеть язык, которые они сами выбрали.",
+			"en" : "After changing the language, reload the cloud page. This add-in works only for your profile, other users will see the language they chose."
+		}
+	},
+
+	"ok" :
+	{
+		"ru" : "Применить",
+		"en" : "Apply"
+	}
+}

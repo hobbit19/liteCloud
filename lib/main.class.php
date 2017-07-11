@@ -53,7 +53,7 @@ class Cloud
 		self::$profile  = self::account(((isset($_COOKIE['id'])) ? $_COOKIE['id'] : 0));
 		self::$template = new tempengine($config['template']);
 		self::$application = new application(self::$mysqli, $config);
-		self::$system   = new system($config['path']);
+		self::$system   = new system($config['path'], $config);
 		// Присвоение конфигураци
 		self::$configuration = $config;
 	}
@@ -69,8 +69,7 @@ class Cloud
 		);
 		// Поиск в User Agent совподение с элементами массива
 		foreach($mobiles as $mobile)
-			if(preg_match("#".$mobile."#i", $_SERVER['HTTP_USER_AGENT']))
-				return true;
+			if(preg_match("#".$mobile."#i", $_SERVER['HTTP_USER_AGENT'])) return true;
 		return false;
 	}
 	/*
@@ -81,20 +80,24 @@ class Cloud
 	{
 		$array = array(
 			'is_login'  => false,
-			'is_mobile' => self::is_mobile()
+			'is_mobile' => self::is_mobile(),
+			'language' => 'en'
 		);
 		// Массив для неавторизированного пользователя
 		if($id == 0 || !Guard::isint($id)) return $array;
 		// Извлечение данных из базы и формарование массива
-		$query_u = mysqli_query(self::$mysqli, "SELECT `rules`, `login`, `root` FROM `users` WHERE `id`='{$id}'");
+		$query_u = mysqli_query(self::$mysqli, "SELECT `rules`, `login`, `root`, `language`, `name` FROM `users` WHERE `id`='{$id}'");
 		if(mysqli_num_rows($query_u) == 1)
 		{
 			// Перезапись массива
 			$user_sql = mysqli_fetch_assoc($query_u);
 			$array['is_login'] = true;
+			$array['name'] = $user_sql['name'];
 			$array['username'] = $user_sql['login'];
 			if(($array['root'] = $user_sql['root']) != 1)
 				$array['rules'] = (array)json_decode($user_sql['rules'], true);
+			// Язык профиля
+			$array['language'] = $user_sql['language'];
 		}
 		// Возвращаем ответ
 		return $array;
@@ -109,9 +112,9 @@ class Cloud
 	}
 	/*
 		Назначение функции: Определение путей и выдачи контента
-		Входящие параметры: Массив контроллеров
+		Входящие параметры: Нету
 	*/
-	public static function __interface($controller = array())
+	public static function __interface()
 	{
 		// Вывод запрашиваемого контроллера
 		if(self::$profile['is_login'] && isset($_GET['application']))
@@ -143,11 +146,28 @@ class Cloud
 	public static function ajaxerror($message = "")
 	{
 		self::$template->set('message', $message);
-		self::$template->set('title', 'Ошибка приложения');
+		self::$template->set('title', self::$configuration['app_error'][self::$profile['language']]['title']);
+		self::$template->set('button', self::$configuration['app_button'][self::$profile['language']]);
 		// Выводим статус ошибки и шаблон уведомления
 		return array(
 			'status' => 0,
 			'html'   => self::$template->display('ajaxerror.tmp')
+		);
+	}
+	/*
+		Назначение функции: Смена языка пользователя
+		Входящие параметры: Язык
+	*/
+	public static function language($lang = "ru")
+	{
+		// Проверка на пустую переменную
+		if(empty($lang)) return;
+		// Очистка переменной
+		$lang = Guard::escape($lang);
+		// Применяем настройку
+		return mysqli_query(
+			self::$mysqli, 
+			"UPDATE `users` SET `language`='{$lang}' WHERE `login`='" . Cloud::$profile['username'] . "'"
 		);
 	}
 	/*
@@ -163,7 +183,8 @@ class Cloud
 			$password = Guard::password($_POST['password']);
 			// Проверка на существование пользователя
 			$query = mysqli_query(
-				self::$mysqli, "SELECT `id` FROM `users` WHERE `login`='{$username}' AND `password`='{$password}'"
+				self::$mysqli, 
+				"SELECT `id` FROM `users` WHERE `login`='{$username}' AND `password`='{$password}'"
 			);
 			if(mysqli_num_rows($query) == 1)
 			{

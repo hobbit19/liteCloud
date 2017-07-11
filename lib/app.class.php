@@ -2,212 +2,233 @@
 class application
 {
 	/*
-		Variable assignment: An array of types and function names
+		Назначение переменной: Массив типов и названий функций
 	*/
-	private static $types = array(
+	private static $types = array
+	(
 		0 => 'appid',
 		1 => 'appdir',
 		2 => 'appalias'
 	);
 	/*
-		Variable assignment: Pointer to the database
+		Назначение переменной: Указатель на бд
 	*/
 	private static $mysqli = false;
 	/*
-		Variable assignment: Cloud configuration
+		Назначение переменной: Конфигурация облака
 	*/
 	private static $configuration = array();
 	/*
-		Function assignment: Obtaining a pointer to the database
-		Incoming parameters: Pointer to the database
+		Назначение переменной: Конфигурация облака
+	*/
+	private static $fullpath = null;
+	/*
+		Назначение функции: Получение указателя бд
+		Входящие параметры: Указатель бд
 	*/
 	public function __construct($mysqli_from, $config = array())
 	{
-		// Populating the local pointer and configuration
+		// Заполнение локального указателя бд и конфигурация
 		self::$mysqli = $mysqli_from;
 		self::$configuration = $config;
 	}
 	/*
-		Purpose of the function: Getting information about the application
-		Incoming parameters: Identifier, type
+		Назначение функции: Получение информации о приложении
+		Входящие параметры: Опознователь, тип
 	*/
 	public function init($string = "", $type = 0)
 	{
-		// Checking the existence of a type and starting a function
+		// Проверка существования типа и запуск функции
 		if(isset(self::$types[(int)$type]))
 		{
-			// Calling a function on an incoming index
+			// Вызов функции по входящему индексу
 			$function = (string)self::$types[(int)$type];
 			return $this->$function(Guard::escape($string));
 		}
 	}
 	/*
-		Function assignment: Getting the output parameter of the application
-		Incoming parameters: Application id, parameter name
+		Назначение функции: Получение выходного параметра приложения
+		Входящие параметры: id приложения, имя параметра
 	*/
 	public function appoprion($id = 0, $option = '', $application = array())
 	{
-		// Checking the input parameter
+		// Проверка входящего параметра
 		if(!Guard::isint($id) || empty($option)) return NULL;
-
-		// Request to get the path to the application and create an array
+		// Запрос на получения пути к приложении и создание массива
 		$q = mysqli_query(self::$mysqli, "SELECT `dir` FROM `apps` WHERE `id`='{$id}'");
-
-		// If the application does not exist
+		// Если приложения не существует
 		if(mysqli_num_rows($q) != 1) return NULL;
 		$array = mysqli_fetch_array($q);
-
-		// Application verification
+		// Проверка приложения
 		if(!$this->is_app($array)) return NULL;
-
-		// Connect the application and return the value of the array
+		// Подключение приложение и возвращаем значение массива
 		$app = include "{$_SERVER['DOCUMENT_ROOT']}/{$array['dir']}/code.php";
 		if(isset($app[$option])) return $app[$option];
 	}
 	/*
-		Function assignment: Displaying internal system notifications
-		Incoming parameters: Window name, message text
+		Назначение функции: Вывод внутренних уведомлений системы
+		Входящие параметры: Название окна, текст сообщения
 	*/
 	public function notice($title = '', $message = '')
 	{
-		// Checking for empty parameters
+		// Проверка пустых параметров
 		if(empty($title) || empty($message)) return NULL;
-
-		// Creating the template pointer
+		// Создание указателя шаблонизатора
 		$temp = new tempengine(self::$configuration['template']);
-
-		// Content generation
+		// Генерация контента
 		$temp->set('message', $message);
 		$temp->set('title', Guard::escape($title));
-
-		// Display the notification template
+		$temp->set('button', self::$configuration['app_button'][Cloud::$profile['language']]);
+		// Выводим шаблон уведомления
 		return $temp->display('ajaxerror.tmp');
 	}
 	/*
-		Function: Record incoming parameters from the notification window
-		Incoming parameters: None
+		Назначение функции: Запись входящих параметров с окна уведомлений
+		Входящие параметры: Нет
 	*/
 	public function winquery()
 	{
-		// Checking for incoming parameters
+		// Проверка на наличае входящих параметров
 		if(!isset($_POST['winquery']) || !Guard::is_json($_POST['winquery']))
 			return array();
-
-		// Writing parameters to an array
+		// Запись параметров в массив
 		return json_decode($_POST['winquery'], true);
 	}
 	/*
-		Function assignment: Recording of incoming parameters from the application
-		Incoming parameters: None
+		Назначение функции: Запись входящих параметров с приложения
+		Входящие параметры: Нет
 	*/
 	public function appquery()
 	{
-		// Checking for incoming parameters
+		// Проверка на наличае входящих параметров
 		if(!isset($_POST['appquery']) || !Guard::is_json($_POST['appquery']))
 			return array();
-
-		// Writing parameters to an array
+		// Запись параметров в массив
 		return json_decode($_POST['appquery'], true);
 	}
 	/*
-		Purpose of the function: Obtaining information about the application by id
-		Incoming parameters: Identifier
+		Назначение функции: Обработка языковых пакетов
+		Входящие параметры: Массив цепочки
+	*/
+	public function language($array = array())
+	{
+		// Провкарка переменных
+		if(self::$fullpath == null || empty(Cloud::$profile['language'])) return false;
+		// Полный путь к языковому пакету
+		$path = self::$fullpath . "/language.json";
+		// Если существует языковой пакета
+		if(!file_exists($path)) return false;
+		// Извлекаем пакет и проверяем валидность
+		if(!Guard::is_json($pack = file_get_contents($path))) return false;
+		// Декодируем языковой пакет
+		$language = (array)json_decode($pack, true);
+		// Идем по языковому списку
+		foreach($array as $point)
+			// Существует ли массив
+			if(is_array($language[$point])) $language = $language[$point];
+			// Если нету совпадений
+			else return "--";
+		// Возвращаем ответ
+		return (isset($language[Cloud::$profile['language']]))
+		? $language[Cloud::$profile['language']] : "--";
+	}
+	/*
+		Назначение функции: Получение информации о приложении по id
+		Входящие параметры: Опознователь
 	*/
 	private function appid($id = 0)
 	{
-		// If the data is incorrect, it returns the data of the first application
+		// При некорректных данных возвращает данные первого приложения
 		if(!Guard::isint($id)) return $this->appfirst();
-
-		// Extracting data and checking for existence
+		// Извлечение данных и проверка на существование
 		$query = mysqli_query(self::$mysqli, "SELECT * FROM `apps` WHERE `id`='{$id}'");
 		return $this->selectapp($query);
 	}
 	/*
-		Purpose of the function: Obtaining information about the application by dir
-		Incoming parameters: Identifier
+		Назначение функции: Получение информации о приложении по dir
+		Входящие параметры: Опознователь
 	*/
 	private function appdir($dir = "")
 	{
-		// Extracting data and checking for existence
+		// Извлечение данных и проверка на существование
 		$query = mysqli_query(self::$mysqli, "SELECT * FROM `apps` WHERE `dir`='{$dir}'");
 		return $this->selectapp($query);
 	}
 	/*
-		Purpose of the function: Obtaining information about the application by alias
-		Incoming parameters: Identifier
+		Назначение функции: Получение информации о приложении по alias
+		Входящие параметры: Опознователь
 	*/
 	private function appalias($alias = "")
 	{
-		// Extracting data and checking for existence
+		// Извлечение данных и проверка на существование
 		$query = mysqli_query(self::$mysqli, "SELECT * FROM `apps` WHERE `alias`='{$alias}'");
 		return $this->selectapp($query);
 	}
 	/*
-		Purpose of the function: Getting information about the first application
-		Incoming parameters: Identifier
+		Назначение функции: Получение информации о первом приложении
+		Входящие параметры: Опознователь
 	*/
 	private function appfirst()
 	{
-		// Extracting data and checking for existence
+		// Извлечение данных и проверка на существование
 		$query = mysqli_query(self::$mysqli, "SELECT * FROM `apps` LIMIT 1");
 		return $this->selectapp($query);
 	}
 	/*
-		Function: Extracting data from the application
-		Incoming parameters: Request
+		Назначение функции: Извлечение данных из приложения
+		Входящие параметры: Запрос
 	*/
 	private function selectapp($query)
 	{
-		// Check for existence
+		// Проверка на существование
 		if(mysqli_num_rows($query) != 1) return $this->appfirst();
-
-		// Forming an array and checking the json configuration
+		// Формирование массива и проверка json конфигурации
 		$application = mysqli_fetch_assoc($query);
 		if(Guard::is_json($application['config']))
+		{
 			$application['config'] = (array)json_decode($application['config'], true);
-
-		// If the wrong json config is returned NULL
-		else $application['config'] = NULL;
-
-		// Integrity of the main files
+			// Определяем название приложения
+			$application['config']['name'] = 
+				// Условие проверки варианта для текущего языка
+				(isset($application['config']['name'][Cloud::$profile['language']]))
+				// Применение названия
+				? $application['config']['name'][Cloud::$profile['language']] : "Nameless";
+		// Если неверный json конфиг возвращаем NULL
+		}else $application['config'] = NULL;
+		// Целостность основных файлов
 		$application['files'] = ($this->is_app($application)) ? true : false;
-
-		// API for working with system functions
+		// API для работы с системными функциями
 		$application['api'] = $this->api($application);
 		return $application;
 	}
 	/*
-		Function: Checking the integrity of files
-		Incoming parameters: An array of application data
+		Назначение функции: Проверка целостности файлов
+		Входящие параметры: Массив данных приложения
 	*/
 	private function is_app($array = array())
 	{
-		$path = "{$_SERVER['DOCUMENT_ROOT']}/{$array['dir']}";
-
-		// Return the answer if there are all the components
-		if(is_dir($path) && file_exists("{$path}/code.php")) return true;
+		self::$fullpath = $path = "{$_SERVER['DOCUMENT_ROOT']}/{$array['dir']}";
+		// Возвращаем ответ при существовании всех компонентов
+		if(is_dir($path) && file_exists("{$path}/code.php")  && file_exists("{$path}/language.json")) return true;
 		return false;
 	}
 	/*
-		Function: Creating tools for running the application
-		Incoming parameters: An array of application data
+		Назначение функции: Создание инструментов для работы приложения
+		Входящие параметры: Массив данных приложения
 	*/
 	private function api($array = array())
 	{
 		$apiarray = array();
-
-		// System capabilities for working with applications
+		// Системные возможности работы с приложениями
 		$apiarray['template'] = new tempengine("/{$array['dir']}/");
 		$apiarray['urlapp'] = "/?application={$array['id']}";
 		$apiarray['type'] = $array['type'];
 		$apiarray['association'] = array();
-
-		// Extracting an associative array
+		// Извлечение ассоциативного массива
 		$query = mysqli_query(self::$mysqli, "SELECT * FROM `association`");
 		while($rows = mysqli_fetch_assoc($query))
 			$apiarray['association'][$rows['type']] = $rows['app_id'];
-		
-		// Returning the response
+		// Возвращаем ответ
 		return $apiarray;
 	}
 }

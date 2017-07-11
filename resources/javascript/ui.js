@@ -81,6 +81,11 @@ window.onload = function()
 		{
 		    values[this.name] = this.value; // ассоциативный массив
 		});
+		// Циклическая запись всех select тегов
+		$('.load_page select').each(function()
+		{
+		    values[this.name] = this.value; // ассоциативный массив
+		});
 		// Отправление запроса на выход
 		$.ajax({
 			url:		'/?content', // Ссылка API контента

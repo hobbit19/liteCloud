@@ -4,9 +4,9 @@ $CONFIG = array
 	'mysql' => array
 	(
 		'host'      => 'localhost',
-		'username'  => 'root',
-		'password'  => '223945',
-		'dbname'    => 'xcloud_regedit'
+		'username'  => '',
+		'password'  => '',
+		'dbname'    => ''
 	),
 
 	'template' => '/resources/templates/',

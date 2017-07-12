@@ -4,9 +4,9 @@ $CONFIG = array
 	'mysql' => array
 	(
 		'host'      => 'localhost',
-		'username'  => '',
-		'password'  => '',
-		'dbname'    => ''
+		'username'  => 'YOUR_VALUE_DB_USER',
+		'password'  => 'YOUR_VALUE_DB_PASS',
+		'dbname'    => 'YOUR_VALUE_DB_NAME'
 	),
 
 	'template' => '/resources/templates/',
@@ -61,7 +61,7 @@ $CONFIG = array
 		'en' => 'Fail connect to database.'
 	),
 
-	'path' => '/home/pi'
+	'path' => 'YOUR_VALUE_WORK_PATH'
 );
 /*
 	Константы проекта

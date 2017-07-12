@@ -1,4 +1,6 @@
 <?php
+// Проверка существования записи пути конфигурации
+if (!isset($CONFIG['path']) || !is_dir($CONFIG['path'])) return NULL;
 // Проверка получения входящего параметра
 if (!isset($_GET['get']) || empty($_GET['get'])) return NULL;
 // Получение реального пути файла

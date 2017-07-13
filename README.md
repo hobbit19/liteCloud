@@ -6,6 +6,7 @@
 
 # Getting Started
 
+[Simple auto-installer](https://github.com/liteCloudRVA/liteCloud-install)
 1. The minimum required PHP version 5, installed Apache2/nginx, MySQL.
 2. In the local domain folder, clone the liteCloud.
 

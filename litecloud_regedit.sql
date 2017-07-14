@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` text NOT NULL,
   `root` int(1) NOT NULL,
   `avatar` text NOT NULL,
-  `language` enum('ru','en') NOT NULL DEFAULT 'ru',
+  `language` enum('ru','en') NOT NULL DEFAULT 'en',
   `rules` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;

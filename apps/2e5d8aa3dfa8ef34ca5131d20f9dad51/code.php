@@ -27,22 +27,6 @@ $application['api']['template']->set("dir", $application['dir']);
 $application['api']['template']->set("avatar", "/{$application['dir']}/avatar.png");
 // Выводим аватарку пользователя
 $application['api']['template']->set("urlapp", $application['api']['urlapp']);
-// Извлечение фраз из массива
-$application['api']['template']->set("ava", Cloud::$application->language(array('links','avatar')));
-$application['api']['template']->set("profile", Cloud::$application->language(array('links','profile')));
-$application['api']['template']->set("user", Cloud::$application->language(array('links','users')));
-$application['api']['template']->set("zone", Cloud::$application->language(array('links','zone')));
-$application['api']['template']->set("rules", Cloud::$application->language(array('links','rules')));
-$application['api']['template']->set("notice", Cloud::$application->language(array('links','notice')));
-$application['api']['template']->set("pass", Cloud::$application->language(array('links','pass')));
-$application['api']['template']->set("apps", Cloud::$application->language(array('links','apps')));
-$application['api']['template']->set("clear", Cloud::$application->language(array('links','clear')));
-$application['api']['template']->set("lang", Cloud::$application->language(array('links','lang')));
-$application['api']['template']->set("update", Cloud::$application->language(array('links','update')));
-$application['api']['template']->set("info", Cloud::$application->language(array('editname')));
-$application['api']['template']->set("of", Cloud::$application->language(array('line','of')));
-$application['api']['template']->set("aft", Cloud::$application->language(array('line','aft')));
-$application['api']['template']->set("updt", Cloud::$application->language(array('updatename')));
 // Генерация шаблона
 return array
 (

@@ -93,8 +93,8 @@
 	{
 		"language" :
 		{
-			"ru" : "После смены языка, перезагрузите страницу облака. Данная надстройка применяется только к вашему профилю, остальные пользователи будут видеть язык, которые они сами выбрали.",
-			"en" : "After changing the language, reload the cloud page. This add-in works only for your profile, other users will see the language they chose."
+			"ru" : "После смены языка страница будет перезагружена. Данная надстройка применяется только к вашему профилю, остальные пользователи будут видеть язык, которые они сами выбрали.",
+			"en" : "After changing the language page will be reloaded. This add-in works only for your profile, other users will see the language they chose."
 		}
 	},
 

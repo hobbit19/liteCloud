@@ -32,5 +32,6 @@ return array
 (
 	'style' => $application['api']['template']->display('style.css'),
 	'html'  => $application['api']['template']->display('style.tmp'),
-	'notice' => array('title' => $notice['title'], 'message' => $notice['message'])
+	'notice' => array('title' => $notice['title'], 'message' => $notice['message']),
+	"menu" => array([Cloud::$application->language(["exit"]), "/?application=-1", 1])
 );

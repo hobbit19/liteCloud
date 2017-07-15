@@ -8,14 +8,14 @@
 				<td>
 					<div class="topsetting">
 						<div id="name"><?=$this->nameuser?></div>
-						<a id="edtinfo" href=""><?=Cloud::$application->language(array('editname'))?></a>
+						<a id="edtinfo" href=""><?=Cloud::$application->language(['editname'])?></a>
 					</div>
 					<div id="progress">
 						<div id="proc">
 							<?=$this->free?> 
-							<?=Cloud::$application->language(array('line','of'))?> 
+							<?=Cloud::$application->language(['line','of'])?> 
 							<?=$this->total?> 
-							<?=Cloud::$application->language(array('line','aft'))?> 
+							<?=Cloud::$application->language(['line','aft'])?> 
 							<?=$this->busy?>
 						</div>
 						<div id="pin" style="width:<?=$this->percent?>%;"></div>
@@ -27,17 +27,17 @@
 </div>
 <div >
 	<div class="contentsettings settingscontainer" style="margin-top:45px;">
-		<a href="<?=$this->urlapp?>&function=avatar" class="settingblock acc_ico"><?=Cloud::$application->language(array('links','avatar'))?></a>
-		<!--<a href="" class="settingblock name_ico"><?=Cloud::$application->language(array('links','profile'))?></a>-->
-		<a href="" class="settingblock users_ico"><?=Cloud::$application->language(array('links','users'))?></a>
-		<a href="" class="settingblock zone_ico"><?=Cloud::$application->language(array('links','zone'))?></a>
-		<a href="" class="settingblock rule_ico"><?=Cloud::$application->language(array('links','rules'))?></a>
-		<a href="" class="settingblock notice_ico"><?=Cloud::$application->language(array('links','notice'))?></a>
-		<a href="" class="settingblock password_ico"><?=Cloud::$application->language(array('links','pass'))?></a>
-		<a href="" class="settingblock app_ico"><?=Cloud::$application->language(array('links','apps'))?></a>
-		<a href="" class="settingblock trash_ico"><?=Cloud::$application->language(array('links','clear'))?></a>
-		<a href="<?=$this->urlapp?>&function=language" class="settingblock language_ico"><?=Cloud::$application->language(array('links','lang'))?></a>
-		<a href="" class="settingblock update_ico"><?=Cloud::$application->language(array('links','update'))?></a>
+		<a href="<?=$this->urlapp?>&function=avatar" class="settingblock acc_ico"><?=Cloud::$application->language(['links','avatar'])?></a>
+		<!--<a href="" class="settingblock name_ico"><?=Cloud::$application->language(['links','profile'])?></a>-->
+		<a href="" class="settingblock users_ico"><?=Cloud::$application->language(['links','users'])?></a>
+		<a href="" class="settingblock zone_ico"><?=Cloud::$application->language(['links','zone'])?></a>
+		<a href="" class="settingblock rule_ico"><?=Cloud::$application->language(['links','rules'])?></a>
+		<a href="" class="settingblock notice_ico"><?=Cloud::$application->language(['links','notice'])?></a>
+		<a href="" class="settingblock password_ico"><?=Cloud::$application->language(['links','pass'])?></a>
+		<a href="" class="settingblock app_ico"><?=Cloud::$application->language(['links','apps'])?></a>
+		<a href="" class="settingblock trash_ico"><?=Cloud::$application->language(['links','clear'])?></a>
+		<a href="<?=$this->urlapp?>&function=language" class="settingblock language_ico"><?=Cloud::$application->language(['links','lang'])?></a>
+		<a href="" class="settingblock update_ico"><?=Cloud::$application->language(['links','update'])?></a>
 	</div>
-	<div class="settingsfooter"><?=Cloud::$application->language(array('updatename'))?>: x2l.v2.1.2</div>
+	<div class="settingsfooter"><?=Cloud::$application->language(['updatename'])?>: x2l.v2.1.2</div>
 </div>

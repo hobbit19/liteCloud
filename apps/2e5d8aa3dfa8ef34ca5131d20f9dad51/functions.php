@@ -14,6 +14,6 @@ function getwindow($type = "")
 		<select name=\"language\">
 			<option " . ((Cloud::$profile['language'] == "ru") ? "selected" : "") ." value=\"ru\">Russian language (Русский язык)</option>
 			<option " . ((Cloud::$profile['language'] == "en") ? "selected" : "") ." value=\"en\">English language (Английский язык)</option>
-		</select><winquery>" . Cloud::$application->language(array('ok')) . "</winquery>"
+		</select><winquery target=\"_self\">" . Cloud::$application->language(array('ok')) . "</winquery>"
 	);
 }

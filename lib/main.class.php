@@ -84,7 +84,7 @@ class Cloud
 			'language' => 'en'
 		);
 		// Массив для неавторизированного пользователя
-		if($id == 0 || !Guard::isint($id)) return $array;
+		if(empty($id) || $id == 0 || !Guard::isint($id)) return $array;
 		// Извлечение данных из базы и формарование массива
 		$query_u = mysqli_query(self::$mysqli, "SELECT `rules`, `login`, `root`, `language`, `name` FROM `users` WHERE `id`='{$id}'");
 		if(mysqli_num_rows($query_u) == 1)
@@ -117,18 +117,26 @@ class Cloud
 	public static function __interface()
 	{
 		// Вывод запрашиваемого контроллера
-		if(self::$profile['is_login'] && isset($_GET['application']))
+		if (self::$profile['is_login'] && isset($_GET['application']))
+		// Выход из текущего профиля
+		if ($_GET['application'] == "-1")
 		{
+			// Убиваем текущие куки
+			setcookie("id", NULL);
+			// Делаем переадресацию для вывода формы 
+			return array('status' => 0, 'location' => '/');
+		}else
+		{
+			// Если человек остался авторизированным
 			echo self::$template->display("main_window.tmp");
 			return array('status' => 1, 'location' => '');
+		}
 		// Переадресация на стандартный контроллер при его отсутствии
-		}else if(self::$profile['is_login'] && !isset($_GET['application']))
-			return array('status' => 0, 'location' => '/?application=0');
+		else if (self::$profile['is_login'] && !isset($_GET['application'])) return array('status' => 0, 'location' => '/?application=0');
 		// Вывод авторизации
 		else
 		{
-			echo self::authorization();
-			return array('status' => 1, 'location' => '');
+			echo self::authorization(); return array('status' => 1, 'location' => '');
 		}
 	}
 	/*

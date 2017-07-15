@@ -1,0 +1,72 @@
+*, *:before {
+box-sizing:border-box;
+position:relative;
+}
+
+body {
+margin:0px auto;
+color:#777;
+width:900px;
+font:13px/18px 'Open Sans', sans-serif;
+background:rgba(241, 241, 241, .33);
+}
+
+input[type="text"], input[type="password"], select {
+background:rgb(255, 255, 255);
+border:2px solid rgb(238, 238, 238);
+padding:5px;
+width:500px;
+margin-bottom:20px;
+color:rgb(146, 142, 142);
+display:block;
+border-radius:4px;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, select:focus {
+background:rgb(251, 251, 251);
+}
+
+input[type="submit"] {
+padding:5px;
+background:none;
+border:0px;
+font-size:15px;
+color:#167DF8;
+display:inline-block;
+padding-left:22px;
+}
+
+input[type="password"] {
+width:410px;
+display:inline-block;
+}
+
+a {
+text-decoration:none;
+color:#167DF8;
+font-weight:500;
+padding-left:30px;
+font-size:14px;
+}
+
+.content {
+margin:0px auto;
+width:500px;
+}
+
+.topmenu {
+font-size:24px;
+font-weight:300;
+padding-top:20px;
+padding-bottom:20px;
+/*margin-bottom:40px;*/
+border-bottom:1px solid #f1f1f1;
+}
+
+.topmenu span {
+color:#167DF8;
+}
+
+.topmenu #urls {
+float:right;
+}

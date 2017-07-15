@@ -38,7 +38,6 @@ outline:none;
 
 a:link, a:active, a:visited {
 text-decoration:none;
-color:#999;
 }
 
 h3 {
@@ -83,13 +82,17 @@ input[type="text"]:focus, input[type="password"]:focus, select:focus {
 background:rgb(251, 251, 251);
 }
 
-winquery {
+winquery, .submiurl {
 font-size:17px;
 font-weight:400;
 padding-left:10px;
 display:inline-block;
 cursor:pointer;
 color:#167DF8;
+}
+
+.submiurl {
+padding-right:10px;
 }
 
 .blur {
@@ -177,6 +180,7 @@ margin-left:4px;
 .menu #info {
 float:right;
 height:100%;
+margin-top:10px;
 }
 
 .menu #settings {

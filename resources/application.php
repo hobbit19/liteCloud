@@ -35,9 +35,10 @@ return array(
 	'html'		=> $app['html'], // Содержимое приложения
 	'title'		=> $application['config']['name'], // Имя приложения
 	'menu'		=> $menu, // Измененное меню
+	'topmenu'	=> Cloud::$application->menulinks(isset($app['menu']) ? $app['menu'] : ""), // Дополнительное меню
 	'notice'	=> Cloud::$application->notice
 	(
-		$app['notice']['title'],
-		$app['notice']['message']
+		(isset($app['notice']['title']))	? $app['notice']['title']	: "", // Название окна
+		(isset($app['notice']['message']))	? $app['notice']['message']	: "" // Содержимое окна
 	) // Окно уведомлений
 );

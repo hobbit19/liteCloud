@@ -98,6 +98,8 @@ window.onload = function()
 				setcontent(data);
 			}
 		});
+		// Если была использована пометка target
+		if(this.getAttribute("target") == "_self") location.reload();
 	});
 	/*$('input').each(function()
 	{
@@ -153,7 +155,7 @@ function setcontent(data)
 	if(json.status != 1)
 	{
 		$("body .load_page").html(json.html); // Шаблон уведомлений
-		$("#logo h2").html("Ошибка<div id=\"open\"></div>"); // Вывод ошибки в меню
+		$("#logo h2").html("Error<div id=\"open\"></div>"); // Вывод ошибки в меню
 		$("body .load_page").attr('aria-hidden', 'true'); // Раскрытие блока
 		$('body .content').attr('aria-blur', 'true'); // Раскрытие эффекта
 	// Если ошибки при проверки невыявлено
@@ -168,5 +170,9 @@ function setcontent(data)
 			$("body .load_page").attr('aria-hidden', 'true'); // Раскрытие блока
 			$('body .content').attr('aria-blur', 'true'); // Раскрытие эффекта
 		}
+		// Генерация дополнительного меню
+		if (json.topmenu != '' && json.topmenu != null) $("#info").html(json.topmenu);
+		// Если значение пустое 
+		else if (json.topmenu == null) $("#info").html("");
 	}
 }

@@ -19,5 +19,10 @@ $files 	= include "{$_SERVER['DOCUMENT_ROOT']}/{$application['dir']}/files.php";
 return array(
 	'style' => $application['api']['template']->display('style.css'),
 	'html'  => "<div id=\"content_file\">{$dirs}{$files['content']}</div>",
-	'notice' => array('title' => $files['notice']['title'], 'message' => $files['notice']['message'])
+	'notice' => array('title' => $files['notice']['title'], 'message' => $files['notice']['message']),
+	'menu' => array
+	(
+		[Cloud::$application->language(["menu","upl"]), "/?sd", 0], 
+		[Cloud::$application->language(["menu","crt"]), "/?sdaa", 0]
+	)
 );

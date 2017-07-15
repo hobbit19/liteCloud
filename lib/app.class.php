@@ -133,6 +133,24 @@ class application
 		? $language[Cloud::$profile['language']] : "--";
 	}
 	/*
+		Назначение функции: Генерация дополнительных ссылок в меню
+		Входящие параметры: Массив списков
+	*/
+	public function menulinks($array = array())
+	{
+		// Проверка массива
+		if(count($array) == 0 || !is_array($array)) return NULL;
+		// Переменная выходного контента
+		$content = NULL;
+		// Генерация выходных блоков
+		for($i=0;$i<count($array);$i++)
+		// Проверка списка
+		if(is_array($array[$i]) && count($array[$i]) == 3 && Guard::isint($array[$i][2]))
+			$content .= "<a " . (($array[$i][2] == 0) ? "" : "target=\"_self\"") . " class=\"submiurl\" href=\"" . 
+			strip_tags($array[$i][1]) . "\">" . Guard::escape($array[$i][0]) . "</a>";
+		return $content;
+	}
+	/*
 		Назначение функции: Получение информации о приложении по id
 		Входящие параметры: Опознователь
 	*/

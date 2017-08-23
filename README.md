@@ -1,4 +1,4 @@
-<p align="center"> <a href="https://github.com/liteCloudRVA" target="_blank"> <img src="https://avatars1.githubusercontent.com/u/30016782?v=3&s=200"> </img> </a> </p>
+<p align="center"> <a href="https://github.com/liteCloudRVA" target="_blank"> <img src="https://avatars1.githubusercontent.com/u/30016782?v=3&s=200">  </a> </p>
 
 ![liteCloud_info](https://raw.githubusercontent.com/eorgiose/screenshots/master/HomeCloud.png)
 

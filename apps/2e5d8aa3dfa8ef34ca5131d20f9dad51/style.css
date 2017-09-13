@@ -149,3 +149,9 @@ border-bottom:1px solid #e6e6e6;
 padding-top:45px;
 text-align:center;
 }
+
+.appblock_line {
+border:1px solid #f1f1f1;
+border-radius:3px;
+max-height:250px;
+}

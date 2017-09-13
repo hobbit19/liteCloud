@@ -4,11 +4,9 @@ include "{$_SERVER['DOCUMENT_ROOT']}/{$application['dir']}/functions.php";
 // Получаем входящие запросы окна
 $windowquery = Cloud::$application->winquery();
 // Если есть запрос на открытие окна
-if(isset($_POST['function']) && !empty($_POST['function']))
-	$notice = getwindow($_POST['function']);
+if(isset($_POST['function']) && !empty($_POST['function'])) $notice = getwindow($_POST['function']);
 // Существует ли запрос на смену языка
-if(isset($windowquery['language']) && !empty($windowquery['language']))
-	Cloud::language($windowquery['language']);
+if(isset($windowquery['language']) && !empty($windowquery['language'])) Cloud::language($windowquery['language']);
 // Вычисляем свободное пространства сервера
 $space = Cloud::$system->freespace();
 // Выводим процент занятости

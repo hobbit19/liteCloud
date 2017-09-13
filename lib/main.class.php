@@ -45,12 +45,14 @@ class Cloud
 	*/
 	public static function handshake($config)
 	{
+		// Запускаем поддержку сессии
+		session_start();
 		// Ставим заголовок с кодировкой проекта
 		if (!isset($_GET['appstyle']) && !isset($_GET['get']))
 			header('Content-Type: text/html; charset=utf-8');
 		// Заполнение указателей пользователя, шаблонизатора, базы данны, системы и профиля
 		self::mysqlconnect($config['mysql']);
-		self::$profile  = self::account(((isset($_COOKIE['id'])) ? $_COOKIE['id'] : 0));
+		self::$profile  = self::account(((isset($_SESSION['id'])) ? $_SESSION['id'] : 0));
 		self::$template = new tempengine($config['template']);
 		self::$application = new application(self::$mysqli, $config);
 		self::$system   = new system($config['path'], $config);
@@ -94,8 +96,7 @@ class Cloud
 			$array['is_login'] = true;
 			$array['name'] = $user_sql['name'];
 			$array['username'] = $user_sql['login'];
-			if(($array['root'] = $user_sql['root']) != 1)
-				$array['rules'] = (array)json_decode($user_sql['rules'], true);
+			if(($array['root'] = $user_sql['root']) != 1) $array['rules'] = (array)json_decode($user_sql['rules'], true);
 			// Язык профиля
 			$array['language'] = $user_sql['language'];
 		}
@@ -117,27 +118,17 @@ class Cloud
 	public static function __interface()
 	{
 		// Вывод запрашиваемого контроллера
-		if (self::$profile['is_login'] && isset($_GET['application']))
+		if (self::$profile['is_login'] && isset($_GET['application'])) {
 		// Выход из текущего профиля
-		if ($_GET['application'] == "-1")
-		{
-			// Убиваем текущие куки
-			setcookie("id", NULL);
-			// Делаем переадресацию для вывода формы 
-			return array('status' => 0, 'location' => '/');
-		}else
-		{
-			// Если человек остался авторизированным
-			echo self::$template->display("main_window.tmp");
-			return array('status' => 1, 'location' => '');
-		}
+		if (Guard::isint($_GET['application']) && $_GET['application'] < 0) unset($_SESSION["id"]);
+		// Показ шаблона главного окна
+		else echo self::$template->display("main_window.tmp");
+		// Возвращаем ответ скрипту маршрутизации
+		return array('status' => ((isset($_SESSION["id"])) ? 1 : 0), 'location' => ((isset($_SESSION["id"])) ? "" : "/"));
 		// Переадресация на стандартный контроллер при его отсутствии
-		else if (self::$profile['is_login'] && !isset($_GET['application'])) return array('status' => 0, 'location' => '/?application=0');
+		}else if (self::$profile['is_login'] && !isset($_GET['application'])) return array('status' => 0, 'location' => '/?application=0');
 		// Вывод авторизации
-		else
-		{
-			echo self::authorization(); return array('status' => 1, 'location' => '');
-		}
+		else return self::authorization();
 	}
 	/*
 		Назначение функции: Быстрый вывод окна ошибки
@@ -198,13 +189,15 @@ class Cloud
 			{
 				// Извлечение данных
 				$array = mysqli_fetch_assoc($query);
-				setcookie("id", $array['id']);
+				$_SESSION['id'] = $array['id'];
 				// Переадресация на страницу приложений
 				header('Location: /?application=0');
 				exit;
 			}
 		}
-		// Возвращаем html шаблона
-		return self::$template->display('login.tmp');
+		// Выводим html шаблон авторизации
+		echo self::$template->display('login.tmp');
+		// Возвращаем статус-массив
+		return array('status' => 1, 'location' => '');
 	}
 }

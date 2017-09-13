@@ -11,8 +11,7 @@ function fileinfo($fullpath = '', $finename = '', $appurl = '', $dir = '')
 		"image"	=> "<img src=\"/?get={$fullpath}{$finename}\" style=\"border-radius:5px;\">",
 		"href"	=> "",
 		"html"	=> ""
-	);
-	// Если не прошло условие
+	); // Если не прошло условие
 	else return array(
 		"href"	=> "{$appurl}&file={$finename}&dir={$fullpath}",
 		"html"	=> "",

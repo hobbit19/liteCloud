@@ -1,0 +1,2 @@
+<div id="content_file"><?=($this->dirs . $this->files)?></div>
+<div class="dirnow"><?=$this->bread?></div>

@@ -1,6 +1,7 @@
 #content_file {
 padding:1%;
 text-align:justify;
+padding-bottom:50px;
 }
 
 #block_file {
@@ -60,4 +61,35 @@ font-weight:300;
 #tableinwin .left_text {
 width:376px;
 padding-bottom:10px;
+}
+
+.dirnow {
+position:absolute;
+bottom:0px;
+left:0px;
+font-size:15px;
+height:40px;
+width:100%;
+padding-left:1%;
+background:rgb(251, 251, 251);
+padding-top:11px;
+border-top:1px solid #f1f1f1;
+}
+
+.dirnow a {
+color:#777;
+}
+
+.dirnow .dirimg {
+width:18px;
+height:18px;
+margin-bottom:-3px;
+}
+
+.dirnow .nxt {
+background:url('<?=$this->css?>/images/rbrd.png') no-repeat right;
+background-position-y:8px;
+padding-right:17px;
+margin-right:9px;
+font-weight:300;
 }

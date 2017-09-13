@@ -4,8 +4,9 @@ var url_data 	= location.href.split('?');
 // События при нажатии на любой блок
 window.onload = function()
 {
-	// События при нажатии на ссылку
-	$(document).on('click', 'a', handlerAnchors);
+	// События при нажатии на ссылку или на goto
+	$(document).on('click', 'a',	handlerAnchors);
+	$(document).on('click', 'goto',	handlerAnchors);
 	// События при переходе на предыдущую ссылку
 	window.addEventListener("popstate", send_url);
 	// Загрузка содержимого
@@ -119,7 +120,15 @@ window.onload = function()
 $(document).on('keyup', '[filter-input="true"]', function(event)
 {
 	event.preventDefault();
-	alert($(this).val());
+	// Записываем текущий контент поля
+	var content = $(this).val();
+	// Список запрещенных символов
+	var symbols = ['.', '"', '/', '\\', '[', ']', ':', ';', '|', '=', ',', '?', '<', '>', '*', '\'', '&'];
+	// Циклом удаляем символы
+	for(i=0;i<17;i++)  for(j=0;j<content.length;j++)
+	if(symbols[i] == content[j]) { alert(symbols[i] + " " + content[j]); content[j].replace(symbols[i], '!'); }
+	// Применянем новое имя
+	$(this).val(content);
 });
 // Функция закрытия панели уведомления
 function load_close()

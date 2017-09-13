@@ -130,4 +130,21 @@ class system
 		// Возвращаем ответ в байтах
 		return round($filesize, 1)." Byte";
 	}
+	/*
+		Назначение функции: Создание каталога
+		Входящие параметры: Путь к каталогу, название
+	*/
+	public static function make_dir($path = "", $name = "")
+	{
+		// Список запрещенных символов
+		$array = array('.', '"', '/', '\\', '[', ']', ':', ';', '|', '=', ',', '?', '<', '>', '*', '\'', '&');
+		// Проверка параметров
+		if(empty($path) || empty($name) || !is_dir(self::$_path . $path)) return false;
+		// Заменяем запрещенные символы
+		for($i=0;$i<count($array);$i++) $name = str_replace($array[$i], "", $name);
+		// Проверка пути
+		if($path[strlen($path) - 1] != '/') $path = self::$_path . "{$path}/";
+		// Создаем каталог
+		return mkdir("{$path}{$name}", 0775);
+	}
 }

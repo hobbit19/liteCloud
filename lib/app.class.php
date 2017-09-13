@@ -50,7 +50,7 @@ class application
 		Назначение функции: Получение выходного параметра приложения
 		Входящие параметры: id приложения, имя параметра
 	*/
-	public function appoprion($id = 0, $option = '', $application = array())
+	public function appoprion($id = 0, $option = "", $application = array())
 	{
 		// Проверка входящего параметра
 		if(!Guard::isint($id) || empty($option)) return NULL;
@@ -69,7 +69,7 @@ class application
 		Назначение функции: Вывод внутренних уведомлений системы
 		Входящие параметры: Название окна, текст сообщения
 	*/
-	public function notice($title = '', $message = '')
+	public function notice($title = "", $message = "")
 	{
 		// Проверка пустых параметров
 		if(empty($title) || empty($message)) return NULL;
@@ -86,11 +86,11 @@ class application
 		Назначение функции: Запись входящих параметров с окна уведомлений
 		Входящие параметры: Нет
 	*/
-	public function winquery()
+	public function winquery($option = "")
 	{
 		// Проверка на наличае входящих параметров
 		if(!isset($_POST['winquery']) || !Guard::is_json($_POST['winquery']))
-			return array();
+			return NULL;
 		// Запись параметров в массив
 		return json_decode($_POST['winquery'], true);
 	}
@@ -98,11 +98,11 @@ class application
 		Назначение функции: Запись входящих параметров с приложения
 		Входящие параметры: Нет
 	*/
-	public function appquery()
+	public function appquery($option = "")
 	{
 		// Проверка на наличае входящих параметров
 		if(!isset($_POST['appquery']) || !Guard::is_json($_POST['appquery']))
-			return array();
+			return NULL;
 		// Запись параметров в массив
 		return json_decode($_POST['appquery'], true);
 	}

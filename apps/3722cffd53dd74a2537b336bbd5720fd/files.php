@@ -18,10 +18,8 @@ for($i=0;$i<count($objects['files']);$i++)
 		mb_substr($objects['files'][$i]['name'], 0, 13, 'UTF-8') . ".." : $objects['files'][$i]['name'];
 	// Применяем шаблон
 	$content .= "
-	<a {$file['html']} href=\"{$file['href']}\" id=\"block_file\">
-		<p>{$file['image']}</p>
-		<div id=\"title_file\">{$name}</div>
-	</a>";
+	<goto {$file['html']} href=\"{$file['href']}\" id=\"block_file\">
+	<p>{$file['image']}</p><div id=\"title_file\">{$name}</div></goto>";
 }
 // Возвращаем шаблона
 return array('content' => $content, 'notice' => $notice);

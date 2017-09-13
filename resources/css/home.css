@@ -91,6 +91,10 @@ cursor:pointer;
 color:#167DF8;
 }
 
+goto {
+cursor:pointer;
+}
+
 .submiurl {
 padding-right:10px;
 }

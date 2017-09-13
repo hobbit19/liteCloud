@@ -34,7 +34,7 @@
 		<a href="" class="settingblock rule_ico"><?=Cloud::$application->language(['links','rules'])?></a>
 		<a href="" class="settingblock notice_ico"><?=Cloud::$application->language(['links','notice'])?></a>
 		<a href="" class="settingblock password_ico"><?=Cloud::$application->language(['links','pass'])?></a>
-		<a href="" class="settingblock app_ico"><?=Cloud::$application->language(['links','apps'])?></a>
+		<a href="<?=$this->urlapp?>&function=applications" class="settingblock app_ico"><?=Cloud::$application->language(['links','apps'])?></a>
 		<a href="" class="settingblock trash_ico"><?=Cloud::$application->language(['links','clear'])?></a>
 		<a href="<?=$this->urlapp?>&function=language" class="settingblock language_ico"><?=Cloud::$application->language(['links','lang'])?></a>
 		<a href="" class="settingblock update_ico"><?=Cloud::$application->language(['links','update'])?></a>

@@ -39,8 +39,35 @@
 
 		"crt" :
 		{
-			"ru" : "Создать",
-			"en" : "Create"
+			"ru" : "Новый каталог",
+			"en" : "New directory"
+		}
+	},
+
+	"functions" :
+	{
+		"create" :
+		{
+			"information" :
+			{
+				"ru" : "Введите название каталога и нажмите на кнопку Создать.",
+				"en" : "Enter name of directory and press create button."
+			},
+
+			"button" :
+			{
+				"ru" : "Создать",
+				"en" : "Create"
+			}
+		},
+
+		"upload" :
+		{
+			"title" :
+			{
+				"ru" : "Загрузить файл",
+				"en" : "Upload file"
+			}
 		}
 	}
 }

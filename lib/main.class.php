@@ -55,7 +55,7 @@ class Cloud
 		self::$profile  = self::account(((isset($_SESSION['id'])) ? $_SESSION['id'] : 0));
 		self::$template = new tempengine($config['template']);
 		self::$application = new application(self::$mysqli, $config);
-		self::$system   = new system($config['path'], $config);
+		self::$system   = new system($config['path'], $config, self::$mysqli, self::$profile);
 		// Присвоение конфигураци
 		self::$configuration = $config;
 	}

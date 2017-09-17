@@ -1,35 +1,17 @@
-<div class="headsettings">
-	<div class="contentsettings">
-		<table style="padding-top:35px;">
-			<tr>
-				<td style="width:190px;">
-					<img id="avatarst" src="<?=$this->avatar?>">
-				</td>
-				<td>
-					<div class="topsetting">
-						<div id="name"><?=$this->nameuser?></div>
-						<a id="edtinfo" href=""><?=Cloud::$application->language(['editname'])?></a>
-					</div>
-					<div id="progress">
-						<div id="proc">
-							<?=$this->free?> 
-							<?=Cloud::$application->language(['line','of'])?> 
-							<?=$this->total?> 
-							<?=Cloud::$application->language(['line','aft'])?> 
-							<?=$this->busy?>
-						</div>
-						<div id="pin" style="width:<?=$this->percent?>%;"></div>
-					</div>
-				</td>
-			</tr>
-		</table>
-	</div>
-</div>
+<div class="headsettings"><div class="contentsettings">
+<table style="padding-top:35px;"><tr><td style="width:190px;">
+<img id="avatarst" src="<?=$this->avatar?>"></td><td><div class="topsetting">
+<div id="name"><?=$this->nameuser?></div><a id="edtinfo" href="">
+<?=Cloud::$application->language(['editname'])?></a></div><div id="progress">
+<div id="proc"><?=$this->free?> <?=Cloud::$application->language(['line','of'])?> 
+<?=$this->total?> <?=Cloud::$application->language(['line','aft'])?> <?=$this->busy?>
+</div><div id="pin" style="width:<?=$this->percent?>%;"></div></div></td></tr></table>
+</div></div>
 <div >
 	<div class="contentsettings settingscontainer" style="margin-top:45px;">
 		<a href="<?=$this->urlapp?>&function=avatar" class="settingblock acc_ico"><?=Cloud::$application->language(['links','avatar'])?></a>
 		<!--<a href="" class="settingblock name_ico"><?=Cloud::$application->language(['links','profile'])?></a>-->
-		<a href="" class="settingblock users_ico"><?=Cloud::$application->language(['links','users'])?></a>
+		<a href="<?=$this->urlapp?>&function=users" class="settingblock users_ico"><?=Cloud::$application->language(['links','users'])?></a>
 		<a href="" class="settingblock zone_ico"><?=Cloud::$application->language(['links','zone'])?></a>
 		<a href="" class="settingblock rule_ico"><?=Cloud::$application->language(['links','rules'])?></a>
 		<a href="" class="settingblock notice_ico"><?=Cloud::$application->language(['links','notice'])?></a>

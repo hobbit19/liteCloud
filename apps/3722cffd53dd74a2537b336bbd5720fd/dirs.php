@@ -13,7 +13,7 @@ for($i=0;$i<count($objects['dirs']);$i++)
 		mb_substr($objects['dirs'][$i]['name'], 0, 16, 'UTF-8') . ".." : $objects['dirs'][$i]['name'];
 	// Применяем шаблон
 	$content .= "
-	<goto href=\"{$url}\" id=\"block_file\">
+	<goto left-effect=\"#content_file\" href=\"{$url}\" id=\"block_file\">
 	<p><img src=\"/{$application['dir']}/images/dir.png\"></p>
 	<div id=\"title_file\">{$name}</div></goto>";
 }

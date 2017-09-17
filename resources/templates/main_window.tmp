@@ -8,8 +8,10 @@
 		<link href="/?appstyle" rel="StyleSheet" type="text/css"/>
 		<link href="/resources/css/animation.css" rel="StyleSheet" type="text/css"/>
 		<link href="/resources/css/home.css" rel="StyleSheet" type="text/css"/>
+		<link href="/resources/css/scrollbar.css" rel="StyleSheet" type="text/css"/>
 		<script src="/resources/javascript/jquery-1.7.2.js"></script>
 		<script src="/resources/javascript/ui.js"></script>
+		<script src="/resources/javascript/jquery.scrollbar.js"></script>
 	</head>
 	<body>
 		<div aria-blur="true" class="content">
@@ -29,6 +31,8 @@
 				</span>
 			</div>
 		</div>
-		<div class="load_page" aria-hidden="true"><div class="spin"></div></div>
+		<div class="load_page" aria-hidden="true">
+			<div class="spin"></div>
+		</div>
 	</body>
 </html>

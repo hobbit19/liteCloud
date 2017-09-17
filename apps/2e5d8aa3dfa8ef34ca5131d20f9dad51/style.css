@@ -151,7 +151,24 @@ text-align:center;
 }
 
 .appblock_line {
-border:1px solid #f1f1f1;
-border-radius:3px;
+border:1px solid #e1e1e1;
+overflow:scroll;
 max-height:250px;
+}
+
+.userlist {
+display:block;
+color:#959595;
+padding:10px;
+padding-top:9px;
+padding-bottom:9px;
+border-bottom:1px solid #f1f1f1;
+}
+
+.userlist:hover {
+background:rgba(199, 235, 255, .25);
+}
+
+.userscontent {
+padding-left:15px;
 }

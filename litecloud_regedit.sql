@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 11, 2017 at 02:42 PM
+-- Generation Time: Sep 17, 2017 at 01:47 PM
 -- Server version: 5.5.55
 -- PHP Version: 5.4.45-0+deb7u8
 
@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS `apps` (
 --
 
 INSERT INTO `apps` (`id`, `dir`, `config`, `alias`, `version`, `type`) VALUES
-(1, 'apps/2e5d8aa3dfa8ef34ca5131d20f9dad51', '{"name":{"ru":"Настройки","en":"Settings"},"description":""}', 'settings', 0, 0),
-(2, 'apps/3722cffd53dd74a2537b336bbd5720fd', '{"name":{"ru":"Файлы","en":"Files"},"description":""}', 'file_manager', 0, 0),
+(1, 'apps/3722cffd53dd74a2537b336bbd5720fd', '{"name":{"ru":"Файлы","en":"Files"},"description":""}', 'file_manager', 0, 0),
+(2, 'apps/2e5d8aa3dfa8ef34ca5131d20f9dad51', '{"name":{"ru":"Настройки","en":"Settings"},"description":""}', 'settings', 0, 0),
 (5, 'apps/05b47614107eb2dd346f747a48936456', '{"name":{"ru":"Приложения","en":"Applications"},"description":""}', '', 0, 0),
 (6, 'apps/bd1a5d7f1baf4a7c78dce7fb26e094d7', '{"name":{"ru":"Уведомления","en":"Notifications"},"description":""}', '', 0, 0),
 (7, 'apps/a0b63292bf6b619396f71a4dd96b8ed2', '{"name":{"ru":"Аккаунт","en":"Account"},"description":""}', 'user_editor', 1, 1),
@@ -107,17 +107,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` text NOT NULL,
   `root` int(1) NOT NULL,
   `avatar` text NOT NULL,
-  `language` enum('ru','en') NOT NULL DEFAULT 'en',
+  `language` enum('ru','en') NOT NULL DEFAULT 'ru',
   `rules` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `login`, `name`, `password`, `root`, `avatar`, `language`, `rules`) VALUES
-(1, 'test', 'John Green', '890363a7b2f93f52b71c6d6410a2a9d3', 1, '/resources/assets/img/noavatar.png', 'ru', '');
+(1, 'test', 'John Green', '890363a7b2f93f52b71c6d6410a2a9d3', 1, '/resources/assets/img/noavatar.png', 'ru', ''),
+(2, '', 'Guest', '890363a7b2f93f52b71c6d6410a2a9d3', 0, '/resources/assets/img/noavatar.png', 'ru', '{\r\n	"disabled_paths" :\r\n	{\r\n		"/var/www", "/ololo"\r\n	},\r\n\r\n	"disabled_apps" :\r\n	{\r\n		2\r\n	}\r\n}');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

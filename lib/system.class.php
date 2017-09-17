@@ -10,14 +10,24 @@ class system
 	*/
 	private static $configuration = array();
 	/*
+		Назначение переменной: Указатель на базу данных
+	*/
+	private static $mysqli = false;
+	/*
+		Назначение переменной: Конфигурация пользователя
+	*/
+	private static $profile = array();
+	/*
 		Назначение функции: Получение пути к зоне видимости
 		Входящие параметры: Путь
 	*/
-	public function __construct($fullpath = '', $config = array())
+	public function __construct($fullpath = '', $config = array(), $mysqli, $profile)
 	{
 		// Запись системных переменных
 		self::$_path = $fullpath;
 		self::$configuration = $config;
+		self::$mysqli = $mysqli;
+		self::$profile = $profile;
 	}
 	/*
 		Назначение функции: Создание массива каталогов и файлов
@@ -146,5 +156,28 @@ class system
 		if($path[strlen($path) - 1] != '/') $path = self::$_path . "{$path}/";
 		// Создаем каталог
 		return mkdir("{$path}{$name}", 0775);
+	}
+	/*
+		Назначение функции: Создание каталога
+		Входящие параметры: Путь к каталогу, название
+	*/
+	public static function userslist($id = -1)
+	{
+		// Массив пользователей
+		$array = array(); $i = 0;
+		// Проверка прав пользователя
+		if(!self::$profile['root'] || !Guard::isint($id)) return NULL;
+		// Извлечение списка всех пользователей
+		if($id == -1) $q = mysqli_query(self::$mysqli, "SELECT * FROM `users`");
+		// Извлечение конкретного пользователя
+		else $q = mysqli_query(self::$mysqli, "SELECT * FROM `users` WHERE `id`='{$id}'");
+		// Извлекаем список
+		while($rows = mysqli_fetch_assoc($q))
+		{
+			// Записываем данные пользователя
+			$array[$i] = array("login" => $rows['login'], "root" => ($rows['root'] == 1) ? true : false, "avatar" => $rows['avatar'],
+			"language" => $rows['language'], "rules" => json_encode($rows['rules'], true), "id" => $rows['id'], "name" => $rows['name']); $i++;
+		}// Возвращаем ответ
+		return $array;
 	}
 }

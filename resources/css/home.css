@@ -23,6 +23,7 @@ margin:0px;
 color:#777;
 font:13px/18px 'Open Sans', sans-serif;
 background:rgba(241, 241, 241, .33);
+overflow-y:hidden;
 }
 
 hr {
@@ -106,6 +107,12 @@ filter:blur(3px);
 .rotation {
 transition:transform .3s ease-in-out,height 0s linear 0s,opacity .2s linear;
 transform:rotate3d(1, 0, 0, 180deg);
+}
+
+.toleft {
+animation: shadow  .1s infinite ease-in-out;
+animation-name:rightmove;
+animation-iteration-count: 1;
 }
 
 .menu {

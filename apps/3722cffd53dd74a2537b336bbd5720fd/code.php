@@ -16,6 +16,7 @@ $objects = Cloud::$system->fromdir($directory);
 $dirs 	= include "{$_SERVER['DOCUMENT_ROOT']}/{$application['dir']}/dirs.php";
 $files 	= include "{$_SERVER['DOCUMENT_ROOT']}/{$application['dir']}/files.php";
 $bread	= include "{$_SERVER['DOCUMENT_ROOT']}/{$application['dir']}/breadcrumbs.php";
+// Дополнительные функции с модальных окон
 include "{$_SERVER['DOCUMENT_ROOT']}/{$application['dir']}/modalfn.php";
 // Выставление переменных для вывода содержимого
 $application['api']['template']->set('dirs',	$dirs);

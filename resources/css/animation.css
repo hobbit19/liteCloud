@@ -1,3 +1,14 @@
+@keyframes rightmove {
+  1% {
+    transform:translate(200px,0);
+    opacity:0;
+  }
+  100% {
+    transform:translate(0px,0);
+    opacity:1;
+  }
+}
+
 @-webkit-keyframes swing {
   20% {
     -webkit-transform: rotate3d(0, 0, 1, 15deg);
@@ -130,4 +141,17 @@ content:'\00A0'
     -webkit-transform:rotate(360deg);transform:rotate(360deg)
   }
 }
-@keyframes islands-spin2{from{color:#35a1cb;-webkit-transform:rotate(0);transform:rotate(0)}to{color:#35a1cb;-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes islands-spin2{
+  from{
+    color:#35a1cb;
+    -webkit-transform:rotate(0);
+    transform:rotate(0)
+  }
+
+  to{
+    color:#35a1cb;
+    -webkit-transform:rotate(360deg);
+    transform:rotate(360deg)
+  }
+}

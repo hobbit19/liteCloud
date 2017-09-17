@@ -1,4 +1,6 @@
 <?php
+// Выводим аватарку пользователя
+$application['api']['template']->set("urlapp", ($appurl = $application['api']['urlapp']));
 // Подключаем функции
 include "{$_SERVER['DOCUMENT_ROOT']}/{$application['dir']}/functions.php";
 // Получаем входящие запросы окна
@@ -23,8 +25,6 @@ $application['api']['template']->set("nameuser", Cloud::$profile['name']);
 $application['api']['template']->set("dir", $application['dir']);
 // Выводим аватарку пользователя
 $application['api']['template']->set("avatar", "/{$application['dir']}/avatar.png");
-// Выводим аватарку пользователя
-$application['api']['template']->set("urlapp", $application['api']['urlapp']);
 // Генерация шаблона
 return array
 (
